@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterFormData } from "../../_schema/schema";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { handleRegisterUser } from "@/lib/actions/auth-action";
 
 export default function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -17,6 +18,7 @@ export default function RegisterForm() {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors, isSubmitting }
     } = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
@@ -30,9 +32,13 @@ export default function RegisterForm() {
         }
     });
 
-    const onSubmit = (data: RegisterFormData) => {
-        alert(`Registered: ${data.fullName}, ${data.email}`);
-        // later you will replace alert with your API call
+    const onSubmit = async (data: RegisterFormData) => {
+      const result = await handleRegisterUser(data);
+      if(result.success) {
+        alert("Registration successfull");
+      }else{
+        alert(result.message);
+      }
     };
 
     return (
@@ -109,24 +115,28 @@ export default function RegisterForm() {
                     {/* Gender */}
                     <div>
                       <label className="block mb-2 font-medium">Gender</label>
-
-                      <RadioGroup defaultValue='beginner' className='flex items-center gap-4'>
-                      <div className='flex items-center gap-2'>
-                      <RadioGroupItem value='male' id='male' />
-                        <Label htmlFor='beginner'>Male</Label>
-                      </div>
-                      <div className='flex items-center gap-2'>
-                        <RadioGroupItem value='female' id='female' />
-                        <Label htmlFor='female'>Female</Label>
-                      </div>
-                      <div className='flex items-center gap-2'>
-                        <RadioGroupItem value='other' id='other' />
-                        <Label htmlFor='other'>Other</Label>
-                      </div>
-                    </RadioGroup>
-                        {errors.gender && (
-                            <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
-                        )}
+                      <RadioGroup
+                        className='flex items-center gap-4'
+                        onValueChange={(value) => {
+                          setValue("gender", value as "male" | "female" | "other", { shouldValidate: true });
+                        }}
+                      >
+                        <div className='flex items-center gap-2'>
+                          <RadioGroupItem value='male' id='male' />
+                          <Label htmlFor='male'>Male</Label>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                          <RadioGroupItem value='female' id='female' />
+                          <Label htmlFor='female'>Female</Label>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                          <RadioGroupItem value='other' id='other' />
+                          <Label htmlFor='other'>Other</Label>
+                        </div>
+                      </RadioGroup>
+                      {errors.gender && (
+                        <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
+                      )}
                     </div>
 
                     {/* Password */}
