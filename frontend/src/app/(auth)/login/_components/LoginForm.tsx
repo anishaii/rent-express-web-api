@@ -8,10 +8,12 @@ import { LoginFormData, loginSchema } from "../../_schema/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { handleLoginUser } from "@/lib/actions/auth-action";
+import { useRouter } from "next/navigation";
 
 
 export default function LoginForm() {
   const[showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -25,11 +27,12 @@ export default function LoginForm() {
     }
 
   });
-  
+
   const onSubmit = async (data: LoginFormData) => {
     const result = await handleLoginUser(data);
     if (result.success) {
       alert("Login successful!");
+      router.push("/");
     } else {
       alert(result.message);
     }
@@ -92,12 +95,12 @@ export default function LoginForm() {
             <div className="flex items-center border rounded-lg px-3 py-3 border-gray-400 focus-within:border-cyan-500">
               <Lock className="text-gray-400 mr-2" size={20} />
 
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="w-full outline-none"
-                {...register("password")}
-              />
+            <input
+              type={showPassword ? "text" : "password"}  // ← was hardcoded "password"
+              placeholder="Enter your password"
+              className="w-full outline-none"
+              {...register("password")}
+            />
               <div onClick={()=> setShowPassword(!showPassword)}>
                 {showPassword
                  ? <EyeOff className="text-gray-400 cursor-pointer" size={20} />

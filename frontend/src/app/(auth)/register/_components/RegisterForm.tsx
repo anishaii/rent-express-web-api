@@ -10,10 +10,12 @@ import { registerSchema, RegisterFormData } from "../../_schema/schema";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { handleRegisterUser } from "@/lib/actions/auth-action";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const router = useRouter();
 
     const {
         register,
@@ -36,6 +38,7 @@ export default function RegisterForm() {
       const result = await handleRegisterUser(data);
       if(result.success) {
         alert("Registration successfull");
+        router.push("/login");
       }else{
         alert(result.message);
       }
