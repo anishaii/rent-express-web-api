@@ -1,9 +1,18 @@
 import express, { Application, NextFunction, Request, Response } from "express";
 import { HttpException } from "./exceptions/http-exception";
 import { ApiResponseHelper } from "./utils/apihelper.util";
+import cors from "cors";
+
+// routes
 import userRoutes from "./routes/user.route";
 
 const app: Application = express();
+
+const corsOptions = {
+  origin: ["*"], // allow all origins for now
+  successStatus: 200,
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
