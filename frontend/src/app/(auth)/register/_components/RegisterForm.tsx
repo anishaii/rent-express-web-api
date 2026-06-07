@@ -202,7 +202,6 @@ export default function RegisterForm() {
                         <span className="text-cyan-500 font-semibold hover:underline cursor-pointer">Login</span>
                     </Link>
                 </p>
-
             </div>
         </div>
     );

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { LoginFormData, loginSchema } from "../../_schema/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { handleLoginUser } from "@/lib/actions/auth-action";
 
 
 export default function LoginForm() {
@@ -24,11 +25,15 @@ export default function LoginForm() {
     }
 
   });
-
-  const onSubmit = (data: LoginFormData) => {
-    alert(`Email: ${data.email}, password: ${data.password}`);
-    // later replace alert with API call
-  }
+  
+  const onSubmit = async (data: LoginFormData) => {
+    const result = await handleLoginUser(data);
+    if (result.success) {
+      alert("Login successful!");
+    } else {
+      alert(result.message);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
