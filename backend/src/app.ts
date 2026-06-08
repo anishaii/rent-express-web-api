@@ -5,6 +5,7 @@ import cors from "cors";
 
 // routes
 import userRoutes from "./routes/user.route";
+import adminUserRoutes from "./routes/admin/user.route";
 
 const app: Application = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // user Route
 app.use("/api/auth", userRoutes);
+app.use("/api/admin", adminUserRoutes);
 
 // global 404 handler (at bottom)
 app.use((req: Request, res: Response) => {
