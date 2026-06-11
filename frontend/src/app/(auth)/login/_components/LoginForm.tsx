@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { handleLoginUser } from "@/lib/actions/auth-action";
 import { useRouter } from "next/navigation";
+import {toast} from "sonner";
 
 
 export default function LoginForm() {
@@ -29,14 +30,28 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const result = await handleLoginUser(data);
-    if (result.success) {
-      alert("Login successful!");
-      router.push("/");
-    } else {
-      alert(result.message);
-    }
-  };
+  const result = await handleLoginUser(data);
+  if (result.success) {
+    toast.success("Login successful!",{
+      duration: 1500,
+      style: {
+      background: "#f0fdf4",
+      color: "#16a34a",
+      border: "1px solid #16a34a",
+    },
+    });
+    setTimeout(() => router.push("/"), 1500);
+  } else {
+    toast.error(result.message,{
+       duration: 1500,
+       style: {
+       background: "#fef2f2",
+       color: "#dc2626",
+       border: "1px solid #dc2626",
+    },
+    });
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">

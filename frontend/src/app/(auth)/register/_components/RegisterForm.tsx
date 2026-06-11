@@ -11,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { handleRegisterUser } from "@/lib/actions/auth-action";
 import { useRouter } from "next/navigation";
+import {toast} from "sonner";
 
 export default function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -37,10 +38,24 @@ export default function RegisterForm() {
     const onSubmit = async (data: RegisterFormData) => {
       const result = await handleRegisterUser(data);
       if(result.success) {
-        alert("Registration successfull");
-        router.push("/login");
+        toast.success("Registration successfull",{
+          duration: 1500,
+          style: {
+          background: "#f0fdf4",
+          color: "#16a34a",
+          border: "1px solid #16a34a",
+        },
+        });
+       setTimeout(() => router.push("/login"),1500);
       }else{
-        alert(result.message);
+       toast.error(result.message, {
+        duration: 1500,
+        style: {
+        background: "#fef2f2",
+        color: "#dc2626",
+        border: "1px solid #dc2626",
+        },
+       });
       }
     };
 
