@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner"; 
+import { AuthProvider } from "@/lib/context/AuthContext";
 
 const PoppinsFont = Poppins({
   subsets: ["latin"],
@@ -25,9 +26,11 @@ export default function RootLayout({
       className={`${PoppinsFont.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar/>
-        {children}
-        <Toaster position="bottom-right" />
+        <AuthProvider>
+          <Navbar/>
+          {children}
+          <Toaster position="bottom-right" />
+        </AuthProvider>
         </body>
     </html>
   );

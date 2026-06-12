@@ -14,20 +14,16 @@ import {
 
 import {
   UserIcon,
-  SettingsIcon,
   CreditCardIcon,
   BellIcon,
   LogOutIcon,
 } from "lucide-react";
+import { useAuth } from "@/lib/context/AuthContext";
 
 const listItems = [
   {
     icon: <UserIcon className="h-4 w-4" />,
     property: "Profile",
-  },
-  {
-    icon: <SettingsIcon className="h-4 w-4" />,
-    property: "Settings",
   },
   {
     icon: <CreditCardIcon className="h-4 w-4" />,
@@ -39,11 +35,12 @@ const listItems = [
   },
   {
     icon: <LogOutIcon className="h-4 w-4" />,
-    property: "Sign Out",
+    property: "Logout",
   },
 ];
 
 export default function UserMenu() {
+  const {logout} = useAuth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -62,15 +59,16 @@ export default function UserMenu() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
         <DropdownMenuGroup>
-          {listItems.map((item, index) => (
-            <DropdownMenuItem
-              key={index}
-              className="flex items-center gap-2"
-            >
-              {item.icon}
-              <span>{item.property}</span>
-            </DropdownMenuItem>
-          ))}
+         {listItems.map((item, index) => (
+          <DropdownMenuItem
+            key={index}
+            className="flex items-center gap-2"
+            onClick={item.property === "Logout" ? logout : undefined}
+          >
+            {item.icon}
+            <span>{item.property}</span>
+          </DropdownMenuItem>
+        ))}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
