@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/app/assets/logo_1.png";
@@ -5,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import UserMenu from "@/components/UserMenu";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { useAuth } from "@/lib/context/AuthContext";
 
 export default function Navbar() {
+  const {isAuthenticated, loading} = useAuth();
   return (
     <nav className="border-b bg-white">
       <div className="container mx-auto flex h-15 items-center justify-between px-6">
@@ -49,15 +52,18 @@ export default function Navbar() {
 
         {/* Auth Buttons */}
         <div className="flex items-center gap-3">
-          <Button variant="secondary">
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button className="bg-cyan-500 hover:bg-cyan-600">
-            <Link href="/register">Register</Link>
-          </Button>
-          <UserMenu />
+          {!loading && !isAuthenticated && (
+            <>
+              <Button variant="secondary" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button className="bg-cyan-500 hover:bg-cyan-600" asChild>
+                <Link href="/register">Register</Link>
+              </Button>
+            </>
+          )}
+          {!loading && isAuthenticated && <UserMenu />}
         </div>
-
       </div>
     </nav>
   );
