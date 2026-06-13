@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner"; 
 import { AuthProvider } from "@/lib/context/AuthContext";
 
@@ -27,7 +27,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-          <Navbar/>
+          {/* <Navbar/> */}
           {children}
           <Toaster position="bottom-right" />
         </AuthProvider>
