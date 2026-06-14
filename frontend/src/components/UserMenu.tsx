@@ -27,19 +27,22 @@ import {
 import {
   UserIcon,
   CreditCardIcon,
-  BellIcon,
+
   LogOutIcon,
+  ShieldUser,
 } from "lucide-react";
 import { useAuth } from "@/lib/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const listItems = [
   { icon: <UserIcon className="h-4 w-4" />, property: "Profile" },
   { icon: <CreditCardIcon className="h-4 w-4" />, property: "Billing" },
-  { icon: <BellIcon className="h-4 w-4" />, property: "Notifications" },
+ 
 ];
 
 export default function UserMenu() {
   const { logout, user } = useAuth();
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -68,6 +71,17 @@ export default function UserMenu() {
               <span>{item.property}</span>
             </DropdownMenuItem>
           ))}
+
+          {/* Admin only */}
+           {user?.role === "admin" && (
+            <DropdownMenuItem
+              className="flex items-center gap-2"
+              onClick={() => router.push("/dashboard")}
+            >
+              <ShieldUser className="h-4 w-4" />
+              <span>Admin</span>
+            </DropdownMenuItem>
+          )}
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
