@@ -3,7 +3,7 @@ import { HttpException } from "./exceptions/http-exception";
 import { ApiResponseHelper } from "./utils/apihelper.util";
 import cors from "cors";
 
-// routes
+// import routes
 import userRoutes from "./routes/user.route";
 import adminUserRoutes from "./routes/admin/user.route";
 
