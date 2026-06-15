@@ -56,4 +56,25 @@ export class UserController {
       );
     }
   }
+
+  // Get logged in user detail
+  async whoami(req: Request, res: Response) {
+    try {
+      const user = req.user;
+      if (!user) {
+        return ApiResponseHelper.error(res, "Unauthorized", 401);
+      }
+      return ApiResponseHelper.success(
+        res,
+        user,
+        "User retrieved successfully",
+      );
+    } catch (error: Error | any | unknown) {
+      return ApiResponseHelper.error(
+        res,
+        error.message || "Internal Server Error",
+        error.status || 500,
+      );
+    }
+  }
 }
