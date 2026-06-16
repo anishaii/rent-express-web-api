@@ -46,4 +46,12 @@ export class UserService {
     );
     return { user, token };
   }
+  async updateUser(userId: string, data: Partial<IUser>): Promise<IUser> {
+    const existing = await userRepository.getUserById(userId);
+    if (!existing) {
+      throw new HttpException(404, "User not found");
+    }
+    const updated = await userRepository.update(userId, data);
+    return updated!;
+  }
 }

@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import { HttpException } from "./exceptions/http-exception";
 import { ApiResponseHelper } from "./utils/apihelper.util";
 import cors from "cors";
+import path from "path";
 
 // import routes
 import userRoutes from "./routes/user.route";
@@ -19,6 +20,9 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// serve uploaded files statically
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // auth routes
 app.use("/api/auth", userRoutes);
