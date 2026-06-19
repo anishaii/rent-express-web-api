@@ -72,7 +72,7 @@ export default function RegisterForm() {
 
         {/* Heading */}
         <div className="text-center mb-6">
-           <h3 className="text-2xl font-bold">Create an Account</h3>
+           <h3>Create an Account</h3>
            <p className="text-gray-500 mt-1">Fill in your details to get started</p>
           </div>
 
@@ -217,7 +217,7 @@ export default function RegisterForm() {
                 <p className="text-center mt-6">
                     Already have an account?{" "}
                     <Link href="/login">
-                        <span className="text-cyan-500 font-semibold hover:underline cursor-pointer">Login</span>
+                        <span className="text-cyan-500 font-medium hover:underline cursor-pointer">Login</span>
                     </Link>
                 </p>
             </div>

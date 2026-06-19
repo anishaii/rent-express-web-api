@@ -145,7 +145,7 @@ export default function LoginForm() {
 
         {/* Register */}
         <p className="text-center mt-6">
-          Don’t have an account?<Link href="/register"><span className="text-cyan-500 font-semibold hover:underline cursor-pointer"> Register</span>
+          Don’t have an account?<Link href="/register"><span className="text-cyan-500 font-medium hover:underline cursor-pointer"> Register</span>
           </Link>
         
         </p>

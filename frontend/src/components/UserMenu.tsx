@@ -52,7 +52,12 @@ export default function UserMenu() {
               {user?.fullName?.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
+          <div className="flex flex-col items-start leading-tight">
           <span className="text-sm font-medium">{user?.fullName}</span>
+          {user?.role === "admin" && (
+            <span className="text-xs text-gray-500 font-light">Admin</span>
+          )}
+        </div>
         </Button>
       </DropdownMenuTrigger>
 

@@ -97,7 +97,7 @@ export default function ProfileForm({ user }: { user: any }) {
     (user?.imageUrl ? process.env.NEXT_PUBLIC_BASE_URL + user.imageUrl : null);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-8">
+    <div className="bg-white rounded-xl shadow-sm p-8 mb-5">
       {/* Avatar + name/email header - always visible */}
       <div className="flex items-center gap-4 mb-8">
         <div
