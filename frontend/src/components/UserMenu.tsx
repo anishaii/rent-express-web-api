@@ -27,7 +27,6 @@ import {
 import {
   UserIcon,
   CreditCardIcon,
-
   LogOutIcon,
   ShieldUser,
 } from "lucide-react";
@@ -35,7 +34,7 @@ import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const listItems = [
-  { icon: <UserIcon className="h-4 w-4" />, property: "Profile" },
+  { icon: <UserIcon className="h-4 w-4"  />, property: "Profile" },
   { icon: <CreditCardIcon className="h-4 w-4" />, property: "Billing" },
  
 ];

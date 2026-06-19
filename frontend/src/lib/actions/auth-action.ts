@@ -1,8 +1,9 @@
 "use server";
 
 import { RegisterFormData, LoginFormData } from "@/app/(auth)/_schema/schema";
-import { register, login } from "../api/auth";
+import { register, login, whoami, updateProfile } from "../api/auth";
 import { setTokenCookie, storeUserData } from "../cookies";
+import { revalidatePath } from "next/cache";
 
 // REGISTER
 export const handleRegisterUser = async (data: RegisterFormData) => {
@@ -36,5 +37,44 @@ export const handleLoginUser = async (data: LoginFormData) => {
     }
   } catch (error: Error | any) {
     return { success: false, message: error?.message || "Login failed" };
+  }
+};
+
+// GET LOGGED IN USER DETAILS  - used to prefill profile update form
+export const handleUserDetails = async () => {
+  try {
+    const result = await whoami();
+    if (result.success) {
+      return { success: true, data: result.data };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Failed to fetch user",
+      };
+    }
+  } catch (error: Error | any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch user",
+    };
+  }
+};
+
+// UPDATE PROFILE
+export const handleUpdateProfile = async (data: FormData) => {
+  try {
+    const result = await updateProfile(data);
+    if (result.success) {
+      // refresh profile page data after update so new values show without manual refresh
+      revalidatePath("/profile");
+      return { success: true, message: result.message, data: result.data };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Update user failed",
+      };
+    }
+  } catch (error: Error | any) {
+    return { success: false, message: error?.message || "Update user failed" };
   }
 };

@@ -18,7 +18,7 @@ export const login = async (data: any) => {
     throw new Error(error?.response?.data?.message || "Login failed");
   }
 };
-
+// get currently logged in user's details
 export const whoami = async () => {
   try {
     const response = await axiosInstance.get(API.AUTH.WHOAMI);
@@ -29,7 +29,7 @@ export const whoami = async () => {
     );
   }
 };
-
+// update profile - sends form-data since image upload is involved
 export const updateProfile = async (data: any) => {
   try {
     const response = await axiosInstance.put(API.AUTH.UPDATE, data, {

@@ -16,8 +16,13 @@ export default function Navbar() {
 
         {/* Logo */}
         <div>
-          <Image src={logo} alt="RentExpress Logo" width={70} height={50} priority />
+          <Image src={logo} alt="RentExpress Logo" width={70} height={60} priority />
         </div>
+          {/* <div className="flex items-center">
+          <Image src={logo} alt="RentExpress Logo" width={70} height={60} priority />
+
+          <h5>Rent<span className="text-cyan-700">Express</span></h5>
+          </div> */}
 
         {/* Navigation Links */}
         <div className="flex items-center gap-10">
