@@ -33,25 +33,21 @@ import {
 import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
 
-const listItems = [
-  { icon: <UserIcon className="h-4 w-4"  />, property: "Profile" },
-  { icon: <CreditCardIcon className="h-4 w-4" />, property: "Billing" },
- 
-];
-
 export default function UserMenu() {
   const { logout, user } = useAuth();
   const router = useRouter();
+
+  // build full image url from backend, fallback to undefined if no image set
+  const avatarSrc = user?.imageUrl
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}${user.imageUrl}`
+    : undefined;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-2 rounded-full px-2">
           <Avatar>
-            <AvatarImage
-              src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png"
-              alt="User"
-            />
+            <AvatarImage src={avatarSrc} alt="User" />
             <AvatarFallback className="text-xs">
               {user?.fullName?.slice(0, 2).toUpperCase()}
             </AvatarFallback>
@@ -64,15 +60,22 @@ export default function UserMenu() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
         <DropdownMenuGroup>
-          {listItems.map((item, index) => (
-            <DropdownMenuItem key={index} className="flex items-center gap-2">
-              {item.icon}
-              <span>{item.property}</span>
-            </DropdownMenuItem>
-          ))}
+          {/* Profile - navigates to update profile page */}
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={() => router.push("/profile")}
+          >
+            <UserIcon className="h-4 w-4" />
+            <span>Profile</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem className="flex items-center gap-2">
+            <CreditCardIcon className="h-4 w-4" />
+            <span>Billing</span>
+          </DropdownMenuItem>
 
           {/* Admin only */}
-           {user?.role === "admin" && (
+          {user?.role === "admin" && (
             <DropdownMenuItem
               className="flex items-center gap-2"
               onClick={() => router.push("/dashboard")}
@@ -101,8 +104,9 @@ export default function UserMenu() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={logout} className="bg-red-600 hover:bg-red-800 text-white"
-                >Logout</AlertDialogAction>
+                <AlertDialogAction onClick={logout} className="bg-red-600 hover:bg-red-800 text-white">
+                  Logout
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
