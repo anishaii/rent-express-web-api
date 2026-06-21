@@ -23,5 +23,9 @@ export type LoginUserDTO = z.infer<typeof LoginUserDTO>;
 // password is allowed through for the password change flow, gets hashed in service before saving
 export const UpdateUserDTO = UserSchema.omit({
   role: true,
-}).partial();
+})
+  .partial()
+  .extend({
+    currentPassword: z.string().optional(),
+  });
 export type UpdateUserDTO = z.infer<typeof UpdateUserDTO>;

@@ -10,6 +10,7 @@ import { HttpException } from "../exceptions/http-exception";
 const userRepository = new UserMongoRepository();
 
 export class UserService {
+  // [REGISTER]
   async registerUser(userData: RegisterUserDTO): Promise<IUser> {
     // check duplicate email
     const existingEmail = await userRepository.getUserByEmail(userData.email);
@@ -24,7 +25,7 @@ export class UserService {
     const user = await userRepository.createUser(userData);
     return user;
   }
-
+  // [LOGIN]
   async loginUser(loginData: LoginUserDTO) {
     const user = await userRepository.getUserByEmail(loginData.email);
     if (!user) {
@@ -46,7 +47,7 @@ export class UserService {
     );
     return { user, token };
   }
-
+  // [UPDATE USER]
   async updateUser(id: string, userData: UpdateUserDTO): Promise<IUser> {
     const existingUser = await userRepository.getUserById(id);
     if (!existingUser) {
@@ -61,11 +62,28 @@ export class UserService {
       }
     }
 
-    // hash password if it's part of this update (password change flow)
+    // if password is being changed, verify current password matches before allowing it
     if (userData.password) {
+      const currentPassword = (userData as any).currentPassword;
+      if (!currentPassword) {
+        throw new HttpException(
+          400,
+          "Current password is required to set a new password",
+        );
+      }
+      const isPasswordValid = await bcrypt.compare(
+        currentPassword,
+        existingUser.password,
+      );
+      if (!isPasswordValid) {
+        throw new HttpException(400, "Current password is incorrect");
+      }
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       userData.password = hashedPassword;
     }
+
+    // currentPassword should never be saved to db, strip it before update
+    delete (userData as any).currentPassword;
 
     const updatedUser = await userRepository.update(id, userData);
     if (!updatedUser) {

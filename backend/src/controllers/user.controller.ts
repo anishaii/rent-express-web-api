@@ -75,7 +75,7 @@ export class UserController {
           400,
         );
       }
-
+      // console.log("Parsed update data:", parsedData.data);
       if (filename) {
         parsedData.data.imageUrl = "/uploads/" + filename;
       }
