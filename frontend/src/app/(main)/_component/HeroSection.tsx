@@ -41,7 +41,7 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-start pt-10 px-4 text-center text-white">
         <p className="text-2xl font-medium mb-2">
-          Welcome to Rent Express<span className="font-medium">{user?.fullName?.split(" ")[0]}</span>
+          Welcome to Rent Express <span className="font-medium text-blue-950">{user?.fullName?.split(" ")[0]}</span>
         </p>
         <p className="text-slate-900 mb-8">Choose from our wide selection of vehicles for every journey</p>
 
