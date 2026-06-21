@@ -19,9 +19,9 @@ export const LoginUserDTO = UserSchema.pick({
 });
 export type LoginUserDTO = z.infer<typeof LoginUserDTO>;
 
-// Update DTO - all fields optional, password excluded (handled separately)
+// Update DTO - all fields optional, role excluded for security
+// password is allowed through for the password change flow, gets hashed in service before saving
 export const UpdateUserDTO = UserSchema.omit({
-  password: true,
   role: true,
 }).partial();
 export type UpdateUserDTO = z.infer<typeof UpdateUserDTO>;

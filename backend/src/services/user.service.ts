@@ -1,5 +1,5 @@
 import { UserMongoRepository } from "../repositories/user.repository";
-import { RegisterUserDTO, LoginUserDTO } from "../dtos/user.dto";
+import { RegisterUserDTO, LoginUserDTO, UpdateUserDTO } from "../dtos/user.dto";
 import { IUser } from "../models/user.model";
 
 import bcrypt from "bcrypt";
@@ -46,12 +46,31 @@ export class UserService {
     );
     return { user, token };
   }
-  async updateUser(userId: string, data: Partial<IUser>): Promise<IUser> {
-    const existing = await userRepository.getUserById(userId);
-    if (!existing) {
+
+  async updateUser(id: string, userData: UpdateUserDTO): Promise<IUser> {
+    const existingUser = await userRepository.getUserById(id);
+    if (!existingUser) {
       throw new HttpException(404, "User not found");
     }
-    const updated = await userRepository.update(userId, data);
-    return updated!;
+
+    // check duplicate email only if email is being changed
+    if (userData.email && userData.email !== existingUser.email) {
+      const existingEmail = await userRepository.getUserByEmail(userData.email);
+      if (existingEmail) {
+        throw new HttpException(400, "Email already exists");
+      }
+    }
+
+    // hash password if it's part of this update (password change flow)
+    if (userData.password) {
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      userData.password = hashedPassword;
+    }
+
+    const updatedUser = await userRepository.update(id, userData);
+    if (!updatedUser) {
+      throw new HttpException(500, "Failed to update user");
+    }
+    return updatedUser;
   }
 }
