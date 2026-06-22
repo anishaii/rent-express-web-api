@@ -97,51 +97,54 @@ export default function ProfileForm({ user }: { user: any }) {
     (user?.imageUrl ? process.env.NEXT_PUBLIC_BASE_URL + user.imageUrl : null);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-8 mb-5">
-      {/* Avatar + name/email header - always visible */}
-      <div className="flex items-center gap-4 mb-8">
-        <div
-          onClick={() => isEditing && fileInputRef.current?.click()}
-          className={`relative h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden ${
-            isEditing ? "cursor-pointer ring-2 ring-cyan-500" : ""
-          }`}
-        >
-          {currentImageSrc ? (
-            <Image src={currentImageSrc} alt="Profile" fill className="object-cover"/>
-          ) : (
-            <UserIcon className="h-8 w-8 text-gray-400" />
-          )}
-        </div>
-        <div>
-          <h2 className="text-lg font-semibold">{user?.fullName}</h2>
-          <p className="text-gray-500 text-sm">{user?.email}</p>
-        </div>
-
-        {/* hidden file input, only triggered when editing */}
-        <Controller
-          name="image"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".jpg,.jpeg,.png"
-              onChange={(e) => handleImageChange(e.target.files?.[0], onChange)}
-              className="hidden"
-            />
-          )}
-        />
+  <div className="bg-white rounded-xl border border-gray-200 p-8 mb-5">
+    {/* Avatar + name/email header - always visible */}
+    <div className="flex items-center gap-4 mb-8 pb-8 border-b border-gray-100">
+      <div
+        onClick={() => isEditing && fileInputRef.current?.click()}
+        className={`relative h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden ${
+          isEditing ? "cursor-pointer ring-2 ring-cyan-500" : ""
+        }`}
+      >
+        {currentImageSrc ? (
+          <Image src={currentImageSrc} alt="Profile" fill className="object-cover" />
+        ) : (
+          <UserIcon className="h-8 w-8 text-gray-400" />
+        )}
       </div>
-      {errors.image && (
-        <p className="text-sm text-red-600 -mt-6 mb-4">{errors.image.message}</p>
-      )}
+      <div>
+        <h4 className=" font-bold">{user?.fullName}</h4>
+        <p className="text-gray-500 text-sm">{user?.email}</p>
+      </div>
 
-      <h3 className="font-semibold mb-4">Personal Information</h3>
+      {/* hidden file input, only triggered when editing */}
+      <Controller
+        name="image"
+        control={control}
+        render={({ field: { onChange } }) => (
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".jpg,.jpeg,.png"
+            onChange={(e) => handleImageChange(e.target.files?.[0], onChange)}
+            className="hidden"
+          />
+        )}
+      />
+    </div>
+    {errors.image && (
+      <p className="text-sm text-red-600 -mt-6 mb-4">{errors.image.message}</p>
+    )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-5">
+      Personal Information
+    </h3>
+
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <Label htmlFor="fullName">Full Name</Label>
-          <Input id="fullName" disabled={!isEditing} {...register("fullName")} />
+          <Input id="fullName" disabled={!isEditing} {...register("fullName")} className="mt-1.5" />
           {errors.fullName && (
             <p className="text-sm text-red-600 mt-1">{errors.fullName.message}</p>
           )}
@@ -149,38 +152,50 @@ export default function ProfileForm({ user }: { user: any }) {
 
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input id="email" value={user?.email || ""} disabled />
+          <Input id="email" value={user?.email || ""} disabled className="mt-1.5" />
         </div>
 
         <div>
           <Label htmlFor="contactNumber">Phone Number</Label>
-          <Input id="contactNumber" disabled={!isEditing} {...register("contactNumber")} />
+          <Input id="contactNumber" disabled={!isEditing} {...register("contactNumber")} className="mt-1.5" />
           {errors.contactNumber && (
             <p className="text-sm text-red-600 mt-1">{errors.contactNumber.message}</p>
           )}
         </div>
 
-        {/* Save/Cancel only shown in edit mode, kept inside form so submit works */}
-        {isEditing && (
-          <div className="mt-6 flex gap-3">
-            <Button type="submit" disabled={isSubmitting} className="bg-cyan-500 hover:bg-cyan-600">
-              {isSubmitting ? "Saving..." : "Save Changes"}
-            </Button>
-            <Button type="button" variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </div>
-        )}
-      </form>
+        {/* Gender - always disabled, not editable */}
+        <div>
+          <Label htmlFor="gender">Gender</Label>
+          <Input
+            id="gender"
+            value={user?.gender ? user.gender.charAt(0).toUpperCase() + user.gender.slice(1) : ""}
+            disabled
+            className="mt-1.5"
+          />
+        </div>
+      </div>
 
-      {/* Edit Profile button - outside form, only shown in view mode */}
-      {!isEditing && (
-        <div className="mt-6">
-          <Button type="button" className="bg-cyan-500 hover:bg-cyan-600" onClick={() => setIsEditing(true)}>
-            Edit Profile
+      {/* Save/Cancel only shown in edit mode, kept inside form so submit works */}
+      {isEditing && (
+        <div className="mt-8 flex gap-3">
+          <Button type="submit" disabled={isSubmitting} className="bg-cyan-500 hover:bg-cyan-600">
+            {isSubmitting ? "Saving..." : "Save Changes"}
+          </Button>
+          <Button type="button" variant="outline" onClick={handleCancel}>
+            Cancel
           </Button>
         </div>
       )}
-    </div>
-  );
+    </form>
+
+    {/* Edit Profile button - outside form, only shown in view mode */}
+    {!isEditing && (
+      <div className="mt-8">
+        <Button type="button" className="bg-cyan-500 hover:bg-cyan-600" onClick={() => setIsEditing(true)}>
+          Edit Profile
+        </Button>
+      </div>
+    )}
+  </div>
+);
 }

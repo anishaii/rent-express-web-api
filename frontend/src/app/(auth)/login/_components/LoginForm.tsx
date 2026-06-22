@@ -35,24 +35,30 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
   const result = await handleLoginUser(data);
   if (result.success) {
-    await checkAuth(); 
-    toast.success("Login successful!",{
+    await checkAuth();
+    toast.success("Login successful!", {
       duration: 1500,
       style: {
-      background: "#f0fdf4",
-      color: "#16a34a",
-      border: "1px solid #16a34a",
-    },
+        background: "#f0fdf4",
+        color: "#16a34a",
+        border: "1px solid #16a34a",
+      },
     });
-    setTimeout(() => router.push("/"), 1500);
+    // redirect based on role - admin goes to dashboard, regular user goes to home
+    const role = result.data.user.role;
+    if (role === "admin") {
+      setTimeout(() => router.push("/dashboard"), 1500);
+    } else {
+      setTimeout(() => router.push("/"), 1500);
+    }
   } else {
-    toast.error(result.message,{
-       duration: 1500,
-       style: {
-       background: "#fef2f2",
-       color: "#dc2626",
-       border: "1px solid #dc2626",
-    },
+    toast.error(result.message, {
+      duration: 1500,
+      style: {
+        background: "#fef2f2",
+        color: "#dc2626",
+        border: "1px solid #dc2626",
+      },
     });
   }
 };

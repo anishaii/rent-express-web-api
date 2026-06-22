@@ -41,13 +41,16 @@ export default function PasswordForm() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-8">
-      <h3 className="text-xl font-semibold mb-6">Change Password</h3>
+    <div className="bg-white rounded-xl border border-gray-200 p-8">
+      <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-6">
+        Change Password
+      </h3>
+     
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-5">
         <div>
           <Label htmlFor="currentPassword">Current Password</Label>
-          <Input id="currentPassword" type="password" {...register("currentPassword")} />
+          <Input id="currentPassword" type="password" {...register("currentPassword")} className="mt-1.5" />
           {errors.currentPassword && (
             <p className="text-sm text-red-600 mt-1">{errors.currentPassword.message}</p>
           )}
@@ -55,7 +58,7 @@ export default function PasswordForm() {
 
         <div>
           <Label htmlFor="newPassword">New Password</Label>
-          <Input id="newPassword" type="password" {...register("newPassword")} />
+          <Input id="newPassword" type="password" {...register("newPassword")} className="mt-1.5" />
           {errors.newPassword && (
             <p className="text-sm text-red-600 mt-1">{errors.newPassword.message}</p>
           )}
@@ -63,7 +66,7 @@ export default function PasswordForm() {
 
         <div>
           <Label htmlFor="confirmPassword">Confirm New Password</Label>
-          <Input id="confirmPassword" type="password" {...register("confirmPassword")} />
+          <Input id="confirmPassword" type="password" {...register("confirmPassword")} className="mt-1.5" />
           {errors.confirmPassword && (
             <p className="text-sm text-red-600 mt-1">{errors.confirmPassword.message}</p>
           )}
