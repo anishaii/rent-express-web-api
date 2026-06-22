@@ -109,7 +109,7 @@ export default function UserMenu() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={logout} className="bg-red-600 hover:bg-red-800 text-white">
+                <AlertDialogAction onClick={logout} className="bg-red-700 hover:bg-red-800 text-white">
                   Logout
                 </AlertDialogAction>
               </AlertDialogFooter>
