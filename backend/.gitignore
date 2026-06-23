@@ -9,6 +9,9 @@
 # TypeScript build output
 /dist
 
+# upload folder
+uploads/
+
 # OS generated files
 .DS_Store
 
