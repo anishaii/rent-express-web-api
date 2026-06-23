@@ -9,6 +9,8 @@ import userRoutes from "./routes/user.route";
 import adminUserRoutes from "./routes/admin/user.route";
 import categoryRoutes from "./routes/category.route";
 import adminCategoryRoutes from "./routes/admin/category.route";
+import brandRoutes from "./routes/brand.route";
+import adminBrandRoutes from "./routes/admin/brand.route";
 
 const app: Application = express();
 
@@ -30,9 +32,11 @@ app.use("/api/auth", userRoutes);
 // admin Route
 app.use("/api/admin", adminUserRoutes);
 app.use("/api/admin/category", adminCategoryRoutes);
+app.use("/api/admin/brand", adminBrandRoutes);
 
 // public routes
 app.use("/api/category", categoryRoutes);
+app.use("/api/brand", brandRoutes);
 
 // global 404 handler (at bottom)
 app.use((req: Request, res: Response) => {
