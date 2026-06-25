@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import heroImage from "@/app/assets/hero_image.jpg"; // adjust filename to match yours
+import heroImage from "@/app/assets/hero_image.jpg";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -13,14 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CalendarIcon, SearchIcon, ChevronDownIcon } from "lucide-react";
-import { useAuth } from "@/lib/context/AuthContext";
+import { CalendarIcon, SearchIcon, MapPinIcon } from "lucide-react";
 
 const categories = ["Bike", "Scooter", "Car", "Luxury Car", "Jeep", "Recreational Vehicle"];
 
 export default function HeroSection() {
-  const { user } = useAuth();
-
   const [pickupOpen, setPickupOpen] = useState(false);
   const [dropoffOpen, setDropoffOpen] = useState(false);
   const [pickupDate, setPickupDate] = useState<Date | undefined>(undefined);
@@ -28,103 +25,135 @@ export default function HeroSection() {
   const [category, setCategory] = useState<string>("");
 
   const handleSearch = () => {
-    // search logic will be wired once vehicle listing page exists
+    // will be wired to vehicle listing page later
     console.log({ pickupDate, dropoffDate, category });
   };
 
   return (
-    <div className="relative h-120 w-full">
-      {/* Background image */}
-      <Image src={heroImage} alt="Vehicles" fill priority className="object-cover" />
-      <div className="absolute inset-0 bg-black/30" />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start px-14 py-8 bg-linear-to-b from-[#f3fafc] to-white">
 
-      {/* Content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-start pt-10 px-4 text-center text-white">
-        <p className="text-2xl font-medium mb-2">
-          Welcome to Rent Express <span className="font-medium text-blue-950">{user?.fullName?.split(" ")[0]}</span>
+      {/* Left side */}
+      <div className="flex flex-col gap-6">
+        {/* Badge */}
+        <div className="w-fit">
+          <span className="bg-[#e2f2f7] text-[#007a99] text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#0092B8] inline-block" />
+            500+ vehicles ready to drive
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h1 className="text-3xl font-extrabold text-[#13303a] leading-tight tracking-tight">
+          Rent the right ride for{" "}
+          <span className="text-[#0092B8]">every journey</span>
+        </h1>
+
+        {/* Subtext */}
+        <p className="text-[#51636a] text-base max-w-md leading-relaxed">
+          From city hatchbacks to 12 seater vans book in minutes, pick up the same day, and drive worry free across Nepal.
         </p>
-        <p className="text-slate-900 mb-8">Choose from our wide selection of vehicles for every journey</p>
 
         {/* Search Card */}
-        <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col md:flex-row gap-3 items-stretch md:items-end w-full max-w-3xl text-gray-900">
-          {/* Pick-up Date */}
-          <div className="flex-1 text-left">
-            <label className="text-sm font-medium block mb-1">Pick-up Date</label>
-            <Popover open={pickupOpen} onOpenChange={setPickupOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-between font-normal">
-                  <span className="flex items-center text-gray-500">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {pickupDate ? pickupDate.toLocaleDateString() : "mm/dd/yy"}
-                  </span>
-                  <ChevronDownIcon className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={pickupDate}
-                  onSelect={(date) => {
-                    setPickupDate(date);
-                    setPickupOpen(false);
-                  }}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+        <div className="bg-white border border-[#e7eef0] rounded-2xl shadow-sm p-4 flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-3">
 
-          {/* Drop-off Date */}
-          <div className="flex-1 text-left">
-            <label className="text-sm font-medium block mb-1">Drop-off Date</label>
-            <Popover open={dropoffOpen} onOpenChange={setDropoffOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-between font-normal">
-                  <span className="flex items-center text-gray-500">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {dropoffDate ? dropoffDate.toLocaleDateString() : "mm/dd/yy"}
-                  </span>
-                  <ChevronDownIcon className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={dropoffDate}
-                  onSelect={(date) => {
-                    setDropoffDate(date);
-                    setDropoffOpen(false);
-                  }}
+            {/* Location */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-[#8093a0]">
+                Pick-up Location
+              </label>
+              <div className="flex items-center gap-2 border border-[#e3ebee] rounded-xl px-3 py-3">
+                <MapPinIcon className="h-4 w-4 text-[#0092B8]" strokeWidth={2} />
+                <input
+                  defaultValue="Kathmandu"
+                  className="outline-none text-sm text-[#13303a] w-full bg-transparent"
                 />
-              </PopoverContent>
-            </Popover>
-          </div>
+              </div>
+            </div>
 
-          {/* Category */}
-          <div className="flex-1 text-left">
-            <label className="text-sm font-medium block mb-1">Category</label>
-            <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="All categories" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>
-                    {cat}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {/* Category */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-[#8093a0]">
+                Category
+              </label>
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger className="border-[#e3ebee] rounded-xl text-sm text-[#8093a0]">
+                  <SelectValue placeholder="All categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Pick-up Date */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-[#8093a0]">
+                Pick-up Date
+              </label>
+              <Popover open={pickupOpen} onOpenChange={setPickupOpen}>
+                <PopoverTrigger asChild>
+                  <button className="flex items-center gap-2 border border-[#e3ebee] rounded-xl px-3 py-3 text-sm text-[#8093a0] bg-white text-left">
+                    <CalendarIcon className="h-4 w-4 text-[#0092B8]" strokeWidth={2} />
+                    {pickupDate ? pickupDate.toLocaleDateString() : "mm / dd / yy"}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={pickupDate}
+                    onSelect={(date) => { setPickupDate(date); setPickupOpen(false); }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {/* Drop-off Date */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-[#8093a0]">
+                Drop-off Date
+              </label>
+              <Popover open={dropoffOpen} onOpenChange={setDropoffOpen}>
+                <PopoverTrigger asChild>
+                  <button className="flex items-center gap-2 border border-[#e3ebee] rounded-xl px-3 py-3 text-sm text-[#8093a0] bg-white text-left">
+                    <CalendarIcon className="h-4 w-4 text-[#0092B8]" strokeWidth={2} />
+                    {dropoffDate ? dropoffDate.toLocaleDateString() : "mm / dd / yy"}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={dropoffDate}
+                    onSelect={(date) => { setDropoffDate(date); setDropoffOpen(false); }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           {/* Search Button */}
           <Button
             onClick={handleSearch}
-            className="bg-cyan-500 hover:bg-cyan-600 h-9 px-6 flex items-center gap-2"
+            className="w-full bg-[#0092B8] hover:bg-[#007a99] text-white rounded-xl py-3 flex items-center justify-center gap-2 text-sm font-semibold"
           >
-            <SearchIcon className="h-4 w-4" />
-            Search
+            <SearchIcon className="h-4 w-4" strokeWidth={2} />
+            Search available vehicles
           </Button>
         </div>
+      </div>
+
+      {/* Right side - hero image */}
+      <div className="hidden md:block h-113 rounded-2xl overflow-hidden">
+        <Image
+          src={heroImage}
+          alt="Vehicle lineup"
+          width={600}
+          height={380}
+          className="w-full h-full object-cover"
+          priority
+        />
       </div>
     </div>
   );
