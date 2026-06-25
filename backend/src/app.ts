@@ -30,7 +30,7 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api/auth", userRoutes);
 
 // admin Route
-app.use("/api/admin", adminUserRoutes);
+app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/admin/category", adminCategoryRoutes);
 app.use("/api/admin/brand", adminBrandRoutes);
 
