@@ -2,6 +2,8 @@ import { handleGetUserById } from "@/lib/actions/admin/user-action";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
+import Image from "next/image";
+
 
 // dummy booking data - will be replaced with real booking API later
 const dummyBookings = [
@@ -55,6 +57,28 @@ export default async function UserDetailPage({
       {/* Customer Profile Card */}
       <div className="bg-white rounded-xl border border-gray-200 p-8 mb-6">
         <h2 className="text-xl font-semibold mb-6">Customer Profile</h2>
+        {/* Avatar + name header */}
+      <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-100">
+        <div className="relative h-16 w-16 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
+          {user.imageUrl ? (
+            <Image
+              src={`${process.env.NEXT_PUBLIC_BASE_URL}${user.imageUrl}`}
+              alt={user.fullName}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center bg-cyan-50 text-cyan-600 font-semibold text-lg">
+              {user.fullName?.slice(0, 1).toUpperCase()}
+            </div>
+          )}
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">{user.fullName}</h3>
+          <p className="text-sm text-gray-500">{user.email}</p>
+        </div>
+      </div>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
