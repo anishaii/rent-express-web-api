@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, Trash2Icon, SearchIcon, PencilIcon, PlusIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -48,12 +48,15 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
   const [searchTerm, setSearchTerm] = useState(search);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  // handle search - updates url with search param and resets to page 1
+  // handle search - wraps router.push in transition so it doesn't block UI
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    router.push(`/dashboard/users?page=1&search=${value}`);
+    startTransition(() => {
+      router.push(`/dashboard/users?page=1&search=${value}`);
+    });
   };
 
   // handle page change - updates url with new page number
@@ -88,7 +91,7 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
     <div className="bg-white rounded-xl border border-gray-200 p-6">
       {/* Search Bar + Add User Button */}
       <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 flex-1 mr-4">
+        <div className={`flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 flex-1 mr-4 ${isPending ? "opacity-60" : ""}`}>
           <SearchIcon className="h-4 w-4 text-gray-400 flex-0" />
           <input
             type="text"

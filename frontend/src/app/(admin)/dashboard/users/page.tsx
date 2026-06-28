@@ -1,25 +1,21 @@
 import { handleGetAllUsers } from "@/lib/actions/admin/user-action";
 import UserTable from "./_components/UserTable";
 
-interface SearchParams {
-  page?: string;
-  limit?: string;
-  search?: string;
-}
-
 export default async function UsersPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<{ page?: string; limit?: string; search?: string }>;
 }) {
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const limit = searchParams.limit ? parseInt(searchParams.limit) : 10;
-  const search = searchParams.search || "";
+  const { page: pageParam, limit: limitParam, search: searchParam } = await searchParams;
+
+  const page = pageParam ? parseInt(pageParam) : 1;
+  const limit = limitParam ? parseInt(limitParam) : 10;
+  const search = searchParam || "";
 
   const result = await handleGetAllUsers({ page, limit, search });
 
   if (!result.success) {
-    throw new Error(result.message); // triggers error.tsx
+    throw new Error(result.message);
   }
 
   return (
