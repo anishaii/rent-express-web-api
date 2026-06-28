@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeIcon, Trash2Icon, SearchIcon } from "lucide-react";
+import { EyeIcon, Trash2Icon, SearchIcon, PencilIcon, PlusIcon } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -15,6 +15,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import UserFormDialog from "./UserFormDialog";
 import { handleDeleteUser } from "@/lib/actions/admin/user-action";
 
 interface User {
@@ -22,6 +24,7 @@ interface User {
   fullName: string;
   email: string;
   contactNumber: string;
+  gender: string;
   role: string;
   createdAt: string;
   imageUrl?: string;
@@ -43,6 +46,8 @@ interface UserTableProps {
 export default function UserTable({ users, pagination, search }: UserTableProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState(search);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // handle search - updates url with search param and resets to page 1
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,18 +72,39 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
     }
   };
 
+  // open dialog in edit mode with selected user prefilled
+  const handleEdit = (user: User) => {
+    setSelectedUser(user);
+    setDialogOpen(true);
+  };
+
+  // open dialog in create mode with empty form
+  const handleCreate = () => {
+    setSelectedUser(null);
+    setDialogOpen(true);
+  };
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6">
-      {/* Search Bar */}
-      <div className="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 mb-6">
-        <SearchIcon className="h-4 w-4 text-gray-400 flex-shrink-0" />
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Search customers..."
-          className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400"
-        />
+      {/* Search Bar + Add User Button */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 flex-1 mr-4">
+          <SearchIcon className="h-4 w-4 text-gray-400 flex-0" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Search customers..."
+            className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400"
+          />
+        </div>
+        <Button
+          onClick={handleCreate}
+          className="bg-cyan-500 hover:bg-cyan-600 flex items-center gap-2"
+        >
+          <PlusIcon className="h-4 w-4" />
+          Add User
+        </Button>
       </div>
 
       {/* Empty State */}
@@ -130,6 +156,14 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
                         <EyeIcon className="h-4 w-4" />
                       </button>
 
+                      {/* edit user */}
+                      <button
+                        onClick={() => handleEdit(user)}
+                        className="text-cyan-500 hover:text-cyan-600"
+                      >
+                        <PencilIcon className="h-4 w-4" />
+                      </button>
+
                       {/* delete user with confirmation */}
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -141,7 +175,8 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete this user?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This will permanently delete <strong>{user.fullName}</strong>. This action cannot be undone.
+                              This will permanently delete{" "}
+                              <strong>{user.fullName}</strong>. This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -166,7 +201,7 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
           {pagination.totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
               <p className="text-sm text-gray-500">
-                Showing {((pagination.page - 1) * pagination.limit) + 1} to{" "}
+                Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
                 {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
                 {pagination.total} users
               </p>
@@ -203,6 +238,13 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
           )}
         </>
       )}
+
+      {/* Create/Edit user dialog */}
+      <UserFormDialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        user={selectedUser}
+      />
     </div>
   );
 }
