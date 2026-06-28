@@ -30,8 +30,9 @@ export const CreateUserDTOAdmin = UserSchema.pick({
 });
 export type CreateUserDTOAdmin = z.infer<typeof CreateUserDTOAdmin>;
 
-// Update DTO - role excluded for security, currentPassword for password change verification
-export const UpdateUserDTO = UserSchema.omit({ role: true }).partial().extend({
+// Update DTO - all fields optional, currentPassword for password change verification
+
+export const UpdateUserDTO = UserSchema.partial().extend({
   currentPassword: z.string().optional(),
 });
 export type UpdateUserDTO = z.infer<typeof UpdateUserDTO>;
