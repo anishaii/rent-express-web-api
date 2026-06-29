@@ -16,7 +16,7 @@ const sidebarItems = [
   { icon: <CarIcon className="h-5 w-5" />, label: "Vehicles", path: "/dashboard/vehicles" },
   { icon: <TagIcon className="h-5 w-5" />, label: "Categories", path: "/dashboard/categories" },
   { icon: <CalendarIcon className="h-5 w-5" />, label: "Bookings", path: "/dashboard/bookings" },
-  { icon: <UsersIcon className="h-5 w-5" />, label: "Customers", path: "/dashboard/customers" },
+  { icon: <UsersIcon className="h-5 w-5" />, label: "Customers", path: "/dashboard/users" },
 ];
 
 export default function AdminSidebar() {
