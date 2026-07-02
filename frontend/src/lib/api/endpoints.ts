@@ -1,4 +1,4 @@
-// centralized path definations for API endpoints
+// centralized path definitions for API endpoints
 export const API = {
   AUTH: {
     REGISTER: "/api/auth/register",
@@ -15,5 +15,24 @@ export const API = {
       UPDATE_PASSWORD: (id: string) => `/api/admin/users/${id}/password`,
       DELETE: (id: string) => `/api/admin/users/${id}`,
     },
+    // brand endpoints
+    BRANDS: {
+      GET_ALL: "/api/admin/brand",
+      CREATE: "/api/admin/brand/create",
+      UPDATE: (id: string) => `/api/admin/brand/update/${id}`,
+      DELETE: (id: string) => `/api/admin/brand/delete/${id}`,
+    },
+    // category endpoints
+    CATEGORIES: {
+      GET_ALL: "/api/admin/category",
+      CREATE: "/api/admin/category/create",
+      UPDATE: (id: string) => `/api/admin/category/update/${id}`,
+      DELETE: (id: string) => `/api/admin/category/delete/${id}`,
+    },
+  },
+  // public endpoints - no auth needed
+  PUBLIC: {
+    BRANDS: "/api/brand",
+    CATEGORIES: "/api/category",
   },
 };
