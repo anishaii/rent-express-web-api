@@ -103,4 +103,39 @@ export class BrandController {
       );
     }
   }
+
+  // admin - get paginated brands with optional search
+  async getAllBrandsPaginated(req: Request, res: Response) {
+    try {
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+      const search = req.query.search as string | undefined;
+
+      const result = await brandService.getAllBrandsPaginated(
+        page,
+        limit,
+        search,
+      );
+
+      return ApiResponseHelper.success(
+        res,
+        {
+          data: result.data,
+          pagination: {
+            total: result.total,
+            page,
+            limit,
+            totalPages: Math.ceil(result.total / limit),
+          },
+        },
+        "Brands fetched successfully",
+      );
+    } catch (error: Error | any | unknown) {
+      return ApiResponseHelper.error(
+        res,
+        error.message || "Internal Server Error",
+        error.status || 500,
+      );
+    }
+  }
 }

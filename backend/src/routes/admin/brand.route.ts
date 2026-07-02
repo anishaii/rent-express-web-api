@@ -35,4 +35,12 @@ adminBrandRoute.delete(
   brandController.deleteBrand,
 );
 
+// admin only - get all brands with pagination and search
+adminBrandRoute.get(
+  "/",
+  authorizedMiddleware,
+  adminMiddleware,
+  brandController.getAllBrandsPaginated,
+);
+
 export default adminBrandRoute;

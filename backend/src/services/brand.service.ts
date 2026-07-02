@@ -50,4 +50,13 @@ export class BrandService {
     }
     return await brandRepository.delete(id);
   }
+
+  // get paginated brands with optional search for admin dashboard
+  async getAllBrandsPaginated(
+    page: number,
+    limit: number,
+    search?: string,
+  ): Promise<{ data: IBrand[]; total: number }> {
+    return await brandRepository.getAllPaginated(page, limit, search);
+  }
 }

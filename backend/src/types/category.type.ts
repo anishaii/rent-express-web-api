@@ -5,9 +5,10 @@ export const CategorySchema = z.object({
     "Bike",
     "Scooter",
     "Car",
+    "Van",
+    "Pickup Truck",
     "Luxury Car",
-    "Jeep",
-    "Recreational Vehicle",
+    "Electric Vehicle",
   ]),
   description: z.string().min(1, "Description is required"),
 });
