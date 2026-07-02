@@ -8,6 +8,13 @@ import {
 const adminCategoryRoute = Router();
 const categoryController = new CategoryController();
 
+adminCategoryRoute.get(
+  "/",
+  authorizedMiddleware,
+  adminMiddleware,
+  categoryController.getAllCategories,
+);
+
 adminCategoryRoute.post(
   "/create",
   authorizedMiddleware,
