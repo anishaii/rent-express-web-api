@@ -9,14 +9,18 @@ import {
   TagIcon,
   CalendarIcon,
   UsersIcon,
+  Type,
+  Award,
 } from "lucide-react";
 
 const sidebarItems = [
   { icon: <LayoutDashboardIcon className="h-5 w-5" />, label: "Dashboard", path: "/dashboard" },
+  { icon: <UsersIcon className="h-5 w-5" />, label: "Customers", path: "/dashboard/users" },
   { icon: <CarIcon className="h-5 w-5" />, label: "Vehicles", path: "/dashboard/vehicles" },
   { icon: <TagIcon className="h-5 w-5" />, label: "Categories", path: "/dashboard/categories" },
+  { icon: <Award className="h-5 w-5" />, label: "Brands", path: "/dashboard/brands" },
   { icon: <CalendarIcon className="h-5 w-5" />, label: "Bookings", path: "/dashboard/bookings" },
-  { icon: <UsersIcon className="h-5 w-5" />, label: "Customers", path: "/dashboard/users" },
+ 
 ];
 
 export default function AdminSidebar() {
