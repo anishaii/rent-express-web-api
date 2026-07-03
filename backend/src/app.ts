@@ -11,6 +11,8 @@ import categoryRoutes from "./routes/category.route";
 import adminCategoryRoutes from "./routes/admin/category.route";
 import brandRoutes from "./routes/brand.route";
 import adminBrandRoutes from "./routes/admin/brand.route";
+import vehicleRoutes from "./routes/vehicle.route";
+import adminVehicleRoutes from "./routes/admin/vehicle.route";
 
 const app: Application = express();
 
@@ -33,10 +35,12 @@ app.use("/api/auth", userRoutes);
 app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/admin/category", adminCategoryRoutes);
 app.use("/api/admin/brand", adminBrandRoutes);
+app.use("/api/admin/vehicle", adminVehicleRoutes);
 
 // public routes
 app.use("/api/category", categoryRoutes);
 app.use("/api/brand", brandRoutes);
+app.use("/api/vehicle", vehicleRoutes);
 
 // global 404 handler (at bottom)
 app.use((req: Request, res: Response) => {
