@@ -12,7 +12,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-6">Category Management</h1>
+      <h1 className="text-xl  text-slate-600 font-medium  mb-6">Category Management</h1>
       <CategoryTable categories={result.data} />
     </div>
   );
