@@ -1,8 +1,8 @@
 import { handleGetPublicBrands } from "@/lib/actions/public/brand-action";
 import { handleGetPublicCategories } from "@/lib/actions/public/category-action";
-import VehicleForm from "./_components/VehicleForm";
 import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
+import VehicleForm from "../_components/VehicleForm";
 
 export default async function NewVehiclePage() {
   // fetch brands and categories for form dropdowns
