@@ -59,7 +59,7 @@ export default async function UserDetailPage({
         <h2 className="text-xl font-semibold mb-6">Customer Profile</h2>
         {/* Avatar + name header */}
       <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-100">
-        <div className="relative h-16 w-16 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
+        <div className="relative h-16 w-16 rounded-full bg-gray-100 overflow-hidden flex-0">
           {user.imageUrl ? (
             <Image
               src={`${process.env.NEXT_PUBLIC_BASE_URL}${user.imageUrl}`}

@@ -29,10 +29,21 @@ export const API = {
       UPDATE: (id: string) => `/api/admin/category/update/${id}`,
       DELETE: (id: string) => `/api/admin/category/delete/${id}`,
     },
+    // vehicle endpoints - admin manages vehicles
+    VEHICLES: {
+      GET_ALL: "/api/admin/vehicle",
+      GET_BY_ID: (id: string) => `/api/admin/vehicle/${id}`,
+      CREATE: "/api/admin/vehicle/create",
+      UPDATE: (id: string) => `/api/admin/vehicle/update/${id}`,
+      UPDATE_AVAILABILITY: (id: string) => `/api/admin/vehicle/update/${id}`,
+      DELETE: (id: string) => `/api/admin/vehicle/delete/${id}`,
+    },
   },
   // public endpoints - no auth needed
   PUBLIC: {
     BRANDS: "/api/brand",
     CATEGORIES: "/api/category",
+    VEHICLES: "/api/vehicle",
+    VEHICLE_BY_ID: (id: string) => `/api/vehicle/${id}`,
   },
 };
