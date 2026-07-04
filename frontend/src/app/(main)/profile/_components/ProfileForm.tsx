@@ -93,6 +93,8 @@ export default function ProfileForm({ user }: { user: any }) {
     const formData = new FormData();
     formData.append("fullName", pendingData.fullName);
     formData.append("contactNumber", pendingData.contactNumber);
+    // preserve existing role so it doesn't get reset on profile update
+    formData.append("role", user?.role || "user");
     if (pendingData.image) {
       formData.append("profileImage", pendingData.image);
     }
