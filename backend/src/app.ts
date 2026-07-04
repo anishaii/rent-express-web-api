@@ -13,6 +13,8 @@ import brandRoutes from "./routes/brand.route";
 import adminBrandRoutes from "./routes/admin/brand.route";
 import vehicleRoutes from "./routes/vehicle.route";
 import adminVehicleRoutes from "./routes/admin/vehicle.route";
+import bookingRoutes from "./routes/booking.route";
+import adminBookingRoutes from "./routes/admin/booking.route";
 
 const app: Application = express();
 
@@ -36,12 +38,13 @@ app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/admin/category", adminCategoryRoutes);
 app.use("/api/admin/brand", adminBrandRoutes);
 app.use("/api/admin/vehicle", adminVehicleRoutes);
+app.use("/api/admin/booking", adminBookingRoutes);
 
 // public routes
 app.use("/api/category", categoryRoutes);
 app.use("/api/brand", brandRoutes);
 app.use("/api/vehicle", vehicleRoutes);
-
+app.use("/api/booking", bookingRoutes);
 // global 404 handler (at bottom)
 app.use((req: Request, res: Response) => {
   return res.status(404).json({ message: "API not found" });
