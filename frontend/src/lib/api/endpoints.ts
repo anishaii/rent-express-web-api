@@ -46,6 +46,11 @@ export const API = {
       COMPLETE: (id: string) => `/api/admin/booking/complete/${id}`,
       CANCEL: (id: string) => `/api/admin/booking/cancel/${id}`,
     },
+    // review endpoints - admin can view and delete reviews
+    REVIEWS: {
+      GET_ALL: "/api/admin/review",
+      DELETE: (id: string) => `/api/admin/review/delete/${id}`,
+    },
   },
   // public endpoints - no auth needed
   PUBLIC: {
@@ -61,6 +66,20 @@ export const API = {
       GET_MY_BOOKINGS: "/api/booking/my-bookings",
       GET_BY_ID: (id: string) => `/api/booking/${id}`,
       CANCEL: (id: string) => `/api/booking/cancel/${id}`,
+    },
+    // review endpoints - user manages their own reviews
+    REVIEWS: {
+      CREATE: "/api/review/create",
+      GET_BY_VEHICLE: (vehicleId: string) => `/api/review/vehicle/${vehicleId}`,
+      UPDATE: (id: string) => `/api/review/update/${id}`,
+      DELETE: (id: string) => `/api/review/delete/${id}`,
+    },
+    // favourite endpoints - user manages their own favourites
+    FAVOURITES: {
+      ADD: "/api/favourite/add",
+      GET_MY_FAVOURITES: "/api/favourite/my-favourites",
+      CHECK: (vehicleId: string) => `/api/favourite/check/${vehicleId}`,
+      REMOVE: (vehicleId: string) => `/api/favourite/remove/${vehicleId}`,
     },
   },
 };
