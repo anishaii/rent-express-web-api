@@ -15,6 +15,9 @@ import vehicleRoutes from "./routes/vehicle.route";
 import adminVehicleRoutes from "./routes/admin/vehicle.route";
 import bookingRoutes from "./routes/booking.route";
 import adminBookingRoutes from "./routes/admin/booking.route";
+import reviewRoutes from "./routes/review.route";
+import adminReviewRoutes from "./routes/admin/review.route";
+import favouriteRoutes from "./routes/favourite.route";
 
 const app: Application = express();
 
@@ -39,12 +42,16 @@ app.use("/api/admin/category", adminCategoryRoutes);
 app.use("/api/admin/brand", adminBrandRoutes);
 app.use("/api/admin/vehicle", adminVehicleRoutes);
 app.use("/api/admin/booking", adminBookingRoutes);
+app.use("/api/admin/review", adminReviewRoutes);
 
 // public routes
 app.use("/api/category", categoryRoutes);
 app.use("/api/brand", brandRoutes);
 app.use("/api/vehicle", vehicleRoutes);
 app.use("/api/booking", bookingRoutes);
+app.use("/api/review", reviewRoutes);
+app.use("/api/favourite", favouriteRoutes);
+
 // global 404 handler (at bottom)
 app.use((req: Request, res: Response) => {
   return res.status(404).json({ message: "API not found" });

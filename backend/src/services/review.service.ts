@@ -42,10 +42,16 @@ export class ReviewService {
     if (!existing) {
       throw new HttpException(404, "Review not found");
     }
-    // check if the review belongs to the customer
-    if (existing.customerId.toString() !== customerId) {
+
+    // extract _id correctly whether customerId is populated or just an ObjectId
+    const reviewOwnerId =
+      (existing.customerId as any)?._id?.toString() ||
+      existing.customerId.toString();
+
+    if (reviewOwnerId !== customerId) {
       throw new HttpException(403, "You can only update your own reviews");
     }
+
     const updated = await reviewRepository.update(id, data);
     return updated!;
   }
@@ -56,10 +62,16 @@ export class ReviewService {
     if (!existing) {
       throw new HttpException(404, "Review not found");
     }
-    // check if the review belongs to the customer
-    if (existing.customerId.toString() !== customerId) {
+
+    // extract _id correctly whether customerId is populated or just an ObjectId
+    const reviewOwnerId =
+      (existing.customerId as any)?._id?.toString() ||
+      existing.customerId.toString();
+
+    if (reviewOwnerId !== customerId) {
       throw new HttpException(403, "You can only delete your own reviews");
     }
+
     return await reviewRepository.delete(id);
   }
 
