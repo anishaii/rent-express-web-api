@@ -38,6 +38,14 @@ export const API = {
       UPDATE_AVAILABILITY: (id: string) => `/api/admin/vehicle/update/${id}`,
       DELETE: (id: string) => `/api/admin/vehicle/delete/${id}`,
     },
+    // booking endpoints - admin manages bookings
+    BOOKINGS: {
+      GET_ALL: "/api/admin/booking",
+      GET_BY_ID: (id: string) => `/api/admin/booking/${id}`,
+      CONFIRM: (id: string) => `/api/admin/booking/confirm/${id}`,
+      COMPLETE: (id: string) => `/api/admin/booking/complete/${id}`,
+      CANCEL: (id: string) => `/api/admin/booking/cancel/${id}`,
+    },
   },
   // public endpoints - no auth needed
   PUBLIC: {
@@ -45,5 +53,14 @@ export const API = {
     CATEGORIES: "/api/category",
     VEHICLES: "/api/vehicle",
     VEHICLE_BY_ID: (id: string) => `/api/vehicle/${id}`,
+  },
+  // user booking endpoints - requires auth
+  USER: {
+    BOOKINGS: {
+      CREATE: "/api/booking/create",
+      GET_MY_BOOKINGS: "/api/booking/my-bookings",
+      GET_BY_ID: (id: string) => `/api/booking/${id}`,
+      CANCEL: (id: string) => `/api/booking/cancel/${id}`,
+    },
   },
 };
