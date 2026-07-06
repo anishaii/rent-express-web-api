@@ -18,11 +18,12 @@ import adminBookingRoutes from "./routes/admin/booking.route";
 import reviewRoutes from "./routes/review.route";
 import adminReviewRoutes from "./routes/admin/review.route";
 import favouriteRoutes from "./routes/favourite.route";
+import adminDashboardRoutes from "./routes/admin/dashboard.route";
 
 const app: Application = express();
 
 const corsOptions = {
-  origin: ["*"], // allow all origins for now
+  origin: ["*"], // allow all origins
   successStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -43,6 +44,7 @@ app.use("/api/admin/brand", adminBrandRoutes);
 app.use("/api/admin/vehicle", adminVehicleRoutes);
 app.use("/api/admin/booking", adminBookingRoutes);
 app.use("/api/admin/review", adminReviewRoutes);
+app.use("/api/admin/dashboard", adminDashboardRoutes);
 
 // public routes
 app.use("/api/category", categoryRoutes);
