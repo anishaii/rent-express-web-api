@@ -36,7 +36,7 @@ export default function RecentCustomers({ customers }: RecentCustomersProps) {
               className="flex items-center gap-3 py-2 border-b border-gray-50 last:border-0"
             >
               {/* customer avatar - first letter of name */}
-              <div className="h-8 w-8 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 font-semibold text-sm flex-shrink-0">
+              <div className="h-8 w-8 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 font-semibold text-sm shrink-0">
                 {customer.fullName?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
@@ -46,7 +46,7 @@ export default function RecentCustomers({ customers }: RecentCustomersProps) {
                 <p className="text-xs text-gray-400 truncate">{customer.email}</p>
               </div>
               {/* joined date */}
-              <p className="text-xs text-gray-400 flex-shrink-0">
+              <p className="text-xs text-gray-400 flex-0">
                 {new Date(customer.createdAt).toLocaleDateString()}
               </p>
             </div>

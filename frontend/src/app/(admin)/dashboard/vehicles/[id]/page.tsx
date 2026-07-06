@@ -23,7 +23,7 @@ export default async function VehicleDetailPage({
   const vehicle = result.data;
 
   return (
-    <div className="p-6 max-w-4xl">
+    <div className="p-6">
       {/* Back link */}
       <Link
         href="/dashboard/vehicles"
@@ -35,11 +35,11 @@ export default async function VehicleDetailPage({
 
       {/* Vehicle Detail Card */}
       <div className="bg-white rounded-xl border border-gray-200 p-8">
-        <h2 className="text-xl font-semibold mb-6">Vehicle Details</h2>
+        <h2 className="text-lg font-semibold mb-6 text-slate-600">Vehicle Details</h2>
 
         {/* Vehicle image + name header */}
         <div className="flex items-center gap-6 mb-8 pb-6 border-b border-gray-100">
-          <div className="relative h-32 w-48 rounded-xl overflow-hidden bg-gray-100 flex-0">
+          <div className="relative h-32 w-48 rounded-xl overflow-hidden bg-gray-100 shrink-0">
             {vehicle.imageUrl ? (
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}${vehicle.imageUrl}`}
@@ -54,7 +54,7 @@ export default async function VehicleDetailPage({
             )}
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-gray-900">{vehicle.name}</h3>
+            <h3 className="text-l font-medium text-gray-900">{vehicle.name}</h3>
             <p className="text-sm text-gray-500 mt-1">{vehicle.description}</p>
             {/* availability badge */}
             <span className={`inline-block mt-3 text-xs font-medium px-2.5 py-1 rounded-full ${

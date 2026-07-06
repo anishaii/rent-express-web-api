@@ -19,7 +19,7 @@ export default function BookingStatus({
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {/* pending bookings */}
       <div className="bg-yellow-50 border border-yellow-100 rounded-xl p-4 flex items-center gap-3">
-        <ClockIcon className="h-8 w-8 text-yellow-500 flex-0" />
+        <ClockIcon className="h-8 w-8 text-yellow-500 shrink-0" />
         <div>
           <p className="text-xl font-bold text-yellow-700">{pendingBookings}</p>
           <p className="text-xs text-yellow-600">Pending</p>

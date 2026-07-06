@@ -33,7 +33,7 @@ export default async function EditVehiclePage({
   }
 
   return (
-    <div className="p-6 max-w-2xl">
+    <div className="p-6 ">
       {/* Back link */}
       <Link
         href="/dashboard/vehicles"

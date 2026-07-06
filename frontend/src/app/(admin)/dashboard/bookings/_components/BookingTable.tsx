@@ -175,7 +175,7 @@ export default function BookingTable({
           isPending ? "opacity-60" : ""
         }`}
       >
-        <SearchIcon className="h-4 w-4 text-gray-400 flex-0" />
+        <SearchIcon className="h-4 w-4 text-gray-400 shrink-0" />
         <input
           type="text"
           value={searchTerm}

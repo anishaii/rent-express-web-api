@@ -92,7 +92,7 @@ export default function UserTable({ users, pagination, search }: UserTableProps)
       {/* Search Bar + Add User Button */}
       <div className="flex items-center justify-between mb-6">
         <div className={`flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-2.5 flex-1 mr-4 ${isPending ? "opacity-60" : ""}`}>
-          <SearchIcon className="h-4 w-4 text-gray-400 flex-0" />
+          <SearchIcon className="h-4 w-4 text-gray-400 shrink-0" />
           <input
             type="text"
             value={searchTerm}
