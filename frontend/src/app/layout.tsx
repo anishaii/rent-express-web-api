@@ -24,7 +24,7 @@ export default function RootLayout({
       lang="en"
       className={`${PoppinsFont.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <AuthProvider>
           {children}
           <Toaster position="bottom-right" />
