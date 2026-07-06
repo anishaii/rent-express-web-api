@@ -51,6 +51,10 @@ export const API = {
       GET_ALL: "/api/admin/review",
       DELETE: (id: string) => `/api/admin/review/delete/${id}`,
     },
+    // dashboard endpoints - admin stats
+    DASHBOARD: {
+      STATS: "/api/admin/dashboard/stats",
+    },
   },
   // public endpoints - no auth needed
   PUBLIC: {
