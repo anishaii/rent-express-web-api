@@ -15,9 +15,12 @@ import {
 } from "@/components/ui/select";
 import { CalendarIcon, SearchIcon, MapPinIcon } from "lucide-react";
 
-const categories = ["Bike", "Scooter", "Car", "Luxury Car", "Jeep", "Recreational Vehicle"];
+// categories come from parent page via API - not hardcoded
+interface HeroSectionProps {
+  categories: { _id: string; name: string }[];
+}
 
-export default function HeroSection() {
+export default function HeroSection({ categories }: HeroSectionProps) {
   const [pickupOpen, setPickupOpen] = useState(false);
   const [dropoffOpen, setDropoffOpen] = useState(false);
   const [pickupDate, setPickupDate] = useState<Date | undefined>(undefined);
@@ -71,7 +74,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Category */}
+            {/* Category - comes from API */}
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] font-semibold uppercase tracking-widest text-[#8093a0]">
                 Category
@@ -82,7 +85,9 @@ export default function HeroSection() {
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    <SelectItem key={cat._id} value={cat.name}>
+                      {cat.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
