@@ -32,7 +32,7 @@ export default function Navbar() {
           <Link href="/vehicles" className="font-medium transition-colors duration-200 hover:text-cyan-500">
             Vehicle
           </Link>
-          <Link href="/booking" className="font-medium transition-colors duration-200 hover:text-cyan-500">
+          <Link href="/bookings" className="font-medium transition-colors duration-200 hover:text-cyan-500">
             Booking
           </Link>
 
