@@ -106,7 +106,7 @@ export default function BookingForm({
           </DialogHeader>
           <div className="space-y-3 mt-2">
             <Link
-              href="/login"
+              href={`/login?redirect=/vehicles/${vehicleId}`}
               className="flex items-center justify-center gap-2 w-full bg-[#0092B8] hover:bg-[#007a99] text-white text-sm font-semibold py-3 rounded-xl transition-colors"
             >
               <LogInIcon className="h-4 w-4" />

@@ -8,7 +8,7 @@ import { LoginFormData, loginSchema } from "../../_schema/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { handleLoginUser } from "@/lib/actions/auth-action";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {toast} from "sonner";
 import { useAuth } from "@/lib/context/AuthContext";
 
@@ -16,6 +16,9 @@ import { useAuth } from "@/lib/context/AuthContext";
 export default function LoginForm() {
   const[showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // grab redirect url if user was sent here from a specific page (e.g booking)
+  const redirectUrl = searchParams.get("redirect");
 
   const {checkAuth} = useAuth();
 
@@ -44,12 +47,12 @@ export default function LoginForm() {
         border: "1px solid #16a34a",
       },
     });
-    // redirect based on role - admin goes to dashboard, regular user goes to home
+    // redirect based on role - admin goes to dashboard, regular user goes back to where they came from or home
     const role = result.data.user.role;
     if (role === "admin") {
       setTimeout(() => router.push("/dashboard"), 1500);
     } else {
-      setTimeout(() => router.push("/"), 1500);
+      setTimeout(() => router.push(redirectUrl || "/"), 1500);
     }
   } else {
     toast.error(result.message, {
