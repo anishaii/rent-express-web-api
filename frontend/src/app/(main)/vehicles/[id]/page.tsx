@@ -205,7 +205,6 @@ export default async function VehicleDetailPage({
               {/* booking form */}
               <BookingForm
                 vehicleId={vehicle._id}
-                pricePerDay={vehicle.pricePerDay}
                 isAvailable={vehicle.isAvailable}
               />
             </div>
