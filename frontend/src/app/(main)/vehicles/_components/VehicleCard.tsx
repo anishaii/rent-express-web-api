@@ -6,6 +6,11 @@ import { HeartIcon, UsersIcon, FuelIcon, ZapIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/context/AuthContext";
 import { toast } from "sonner";
+import {
+  handleAddFavourite,
+  handleRemoveFavourite,
+  handleCheckFavourite,
+} from "@/lib/actions/public/favourite-action";
 
 interface Brand {
   _id: string;
@@ -42,83 +47,50 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
   // check if vehicle is already favourited on mount
   useEffect(() => {
-    if (!isAuthenticated) return;
+  if (!isAuthenticated) return;
 
-    const checkFavourite = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourite/check/${vehicle._id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${await (await import("@/lib/cookies")).getTokenCookie()}`,
-            },
-          },
-        );
-        const data = await response.json();
-        if (data.success) {
-          setIsFavourited(data.data.isFavourited);
-        }
-      } catch (error) {
-        console.error("Failed to check favourite:", error);
-      }
-    };
-    checkFavourite();
-  }, [vehicle._id, isAuthenticated]);
+  const checkFav = async () => {
+    const result = await handleCheckFavourite(vehicle._id);
+    if (result.success) {
+      setIsFavourited(result.data.isFavourited);
+    }
+  };
+  checkFav();
+}, [vehicle._id, isAuthenticated]);
 
   // handle heart toggle
   const handleFavouriteToggle = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  e.stopPropagation();
+  e.preventDefault();
 
-    // show toast if not logged in
-    if (!isAuthenticated) {
-      toast.error("Please login to add favourites", { duration: 1500 });
-      return;
-    }
+  if (!isAuthenticated) {
+    toast.error("Please login to add favourites", { duration: 1500 });
+    return;
+  }
 
-    setIsLoading(true);
-    try {
-      const { getTokenCookie } = await import("@/lib/cookies");
-      const token = await getTokenCookie();
-
-      if (isFavourited) {
-        // remove from favourites
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourite/remove/${vehicle._id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        const data = await response.json();
-        if (data.success) {
-          setIsFavourited(false);
-          toast.success("Removed from favourites", { duration: 1500 });
-        }
+  setIsLoading(true);
+  try {
+    if (isFavourited) {
+      const result = await handleRemoveFavourite(vehicle._id);
+      if (result.success) {
+        setIsFavourited(false);
+        toast.success("Removed from favourites", { duration: 1500 });
       } else {
-        // add to favourites
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourite/add`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ vehicleId: vehicle._id }),
-          },
-        );
-        const data = await response.json();
-        if (data.success) {
-          setIsFavourited(true);
-          toast.success("Added to favourites!", { duration: 1500 });
-        } else {
-          toast.error(data.message || "Failed to add favourite", {
-            duration: 1500,
-          });
-        }
+        toast.error(result.message || "Failed to remove favourite", {
+          duration: 1500,
+        });
       }
+    } else {
+      const result = await handleAddFavourite(vehicle._id);
+      if (result.success) {
+        setIsFavourited(true);
+        toast.success("Added to favourites!", { duration: 1500 });
+      } else {
+        toast.error(result.message || "Failed to add favourite", {
+          duration: 1500,
+        });
+      }
+    }
     } catch (error) {
       toast.error("Something went wrong", { duration: 1500 });
     } finally {
