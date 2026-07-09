@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { HeartIcon, UsersIcon, FuelIcon, ZapIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/lib/context/AuthContext";
+import { toast } from "sonner";
 
 interface Brand {
   _id: string;
@@ -33,6 +36,95 @@ interface VehicleCardProps {
 
 export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const [isFavourited, setIsFavourited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // check if vehicle is already favourited on mount
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const checkFavourite = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourite/check/${vehicle._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${await (await import("@/lib/cookies")).getTokenCookie()}`,
+            },
+          },
+        );
+        const data = await response.json();
+        if (data.success) {
+          setIsFavourited(data.data.isFavourited);
+        }
+      } catch (error) {
+        console.error("Failed to check favourite:", error);
+      }
+    };
+    checkFavourite();
+  }, [vehicle._id, isAuthenticated]);
+
+  // handle heart toggle
+  const handleFavouriteToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    // show toast if not logged in
+    if (!isAuthenticated) {
+      toast.error("Please login to add favourites", { duration: 1500 });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { getTokenCookie } = await import("@/lib/cookies");
+      const token = await getTokenCookie();
+
+      if (isFavourited) {
+        // remove from favourites
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourite/remove/${vehicle._id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        const data = await response.json();
+        if (data.success) {
+          setIsFavourited(false);
+          toast.success("Removed from favourites", { duration: 1500 });
+        }
+      } else {
+        // add to favourites
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/favourite/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ vehicleId: vehicle._id }),
+          },
+        );
+        const data = await response.json();
+        if (data.success) {
+          setIsFavourited(true);
+          toast.success("Added to favourites!", { duration: 1500 });
+        } else {
+          toast.error(data.message || "Failed to add favourite", {
+            duration: 1500,
+          });
+        }
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { duration: 1500 });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div
@@ -70,15 +162,23 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           </div>
         )}
 
-        {/* favourite button */}
+        {/* favourite button - red when favourited */}
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            // wire to favourite API later
-          }}
-          className="absolute top-3 right-3 h-8 w-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-red-50 transition-colors"
+          onClick={handleFavouriteToggle}
+          disabled={isLoading}
+          className={`absolute top-3 right-3 h-8 w-8 rounded-full flex items-center justify-center shadow-sm transition-colors ${
+            isFavourited
+              ? "bg-red-50 hover:bg-red-100"
+              : "bg-white hover:bg-red-50"
+          }`}
         >
-          <HeartIcon className="h-4 w-4 text-gray-400" />
+          <HeartIcon
+            className={`h-4 w-4 transition-colors ${
+              isFavourited
+                ? "text-red-500 fill-red-500"
+                : "text-gray-400"
+            }`}
+          />
         </button>
       </div>
 
