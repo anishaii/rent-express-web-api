@@ -9,6 +9,7 @@ import { handleGetPublicBrands } from "@/lib/actions/public/brand-action";
 import { handleGetPublicCategories } from "@/lib/actions/public/category-action";
 import { handleGetPublicVehicles } from "@/lib/actions/public/vehicle-action";
 import { handleGetFeaturedReviews } from "@/lib/actions/public/review-action";
+import WallEChatWidget from "./_component/WallEChatWidget";
 
 export default async function HomePage() {
   // fetch all data in parallel for better performance
@@ -44,6 +45,8 @@ export default async function HomePage() {
 
       {/* footer */}
       <Footer />
+      {/* Wall-E AI assistant */}
+      <WallEChatWidget />
     </div>
   );
 }
