@@ -91,4 +91,9 @@ export class ReviewService {
     }
     return await reviewRepository.delete(id);
   }
+
+  // get featured reviews for homepage - public, no auth needed
+  async getFeaturedReviews(limit: number): Promise<IReview[]> {
+    return await reviewRepository.getFeaturedReviews(limit);
+  }
 }

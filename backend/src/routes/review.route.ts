@@ -8,6 +8,9 @@ const reviewController = new ReviewController();
 // public - anyone can view reviews for a vehicle
 reviewRouter.get("/vehicle/:vehicleId", reviewController.getReviewsByVehicleId);
 
+// public - get featured reviews for homepage
+reviewRouter.get("/featured", reviewController.getFeaturedReviews);
+
 // user - create a review (must be logged in)
 reviewRouter.post(
   "/create",

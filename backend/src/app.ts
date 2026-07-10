@@ -23,7 +23,7 @@ import adminDashboardRoutes from "./routes/admin/dashboard.route";
 const app: Application = express();
 
 const corsOptions = {
-  origin: ["*"], // allow all origins
+  origin: "*", // allow all origins
   successStatus: 200,
 };
 app.use(cors(corsOptions));

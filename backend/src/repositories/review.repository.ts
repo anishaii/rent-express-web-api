@@ -14,6 +14,7 @@ export interface IReviewRepository {
     page: number,
     limit: number,
   ): Promise<{ data: IReview[]; total: number }>;
+  getFeaturedReviews(limit: number): Promise<IReview[]>;
 }
 
 export class ReviewMongoRepository implements IReviewRepository {
@@ -73,5 +74,15 @@ export class ReviewMongoRepository implements IReviewRepository {
       .sort({ createdAt: -1 });
 
     return { data, total };
+  }
+
+  // get top-rated recent reviews across all vehicles - used on homepage
+  async getFeaturedReviews(limit: number): Promise<IReview[]> {
+    const found = await ReviewModel.find({ rating: { $gte: 4 } })
+      .populate("customerId", "-password")
+      .populate("vehicleId")
+      .sort({ createdAt: -1 })
+      .limit(limit);
+    return found;
   }
 }

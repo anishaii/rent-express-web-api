@@ -130,4 +130,23 @@ export class ReviewController {
       );
     }
   }
+
+  // public - get featured reviews for homepage
+  async getFeaturedReviews(req: Request, res: Response) {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 3;
+      const reviews = await reviewService.getFeaturedReviews(limit);
+      return ApiResponseHelper.success(
+        res,
+        reviews,
+        "Featured reviews fetched successfully",
+      );
+    } catch (error: Error | any | unknown) {
+      return ApiResponseHelper.error(
+        res,
+        error.message || "Internal Server Error",
+        error.status || 500,
+      );
+    }
+  }
 }
