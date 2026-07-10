@@ -1,36 +1,37 @@
 "use client";
 
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { StarIcon } from "lucide-react";
 
-// dummy reviews - will be replaced with real API data when vehicle detail page is built
-const dummyReviews = [
-  {
-    id: 1,
-    name: "Aarav Sharma",
-    location: "Kathmandu",
-    rating: 5,
-    comment:
-      "Booking was effortless and the SUV was spotless. Pickup took five minutes — will rent again for sure.",
-  },
-  {
-    id: 2,
-    name: "Sneha Gurung",
-    location: "Pokhara",
-    rating: 5,
-    comment:
-      "Great prices and friendly support. They helped me extend my trip with one quick call.",
-  },
-  {
-    id: 3,
-    name: "Bikash Thapa",
-    location: "Lalitpur",
-    rating: 5,
-    comment:
-      "Wide choice of vehicles and no hidden charges. The electric vehicle was perfect for the city.",
-  },
-];
+interface Customer {
+  fullName: string;
+  imageUrl?: string;
+}
 
-export default function CustomerReviews() {
+interface Vehicle {
+  _id: string;
+  name: string;
+}
+
+interface Review {
+  _id: string;
+  rating: number;
+  comment: string;
+  customerId: Customer;
+  vehicleId: Vehicle;
+}
+
+interface CustomerReviewsProps {
+  reviews: Review[];
+}
+
+export default function CustomerReviews({ reviews }: CustomerReviewsProps) {
+  const router = useRouter();
+
+  // hide the whole section if there are no reviews yet
+  if (reviews.length === 0) return null;
+
   return (
     <section className="px-14 py-12 bg-gray-50">
       {/* section header */}
@@ -45,10 +46,11 @@ export default function CustomerReviews() {
 
       {/* reviews grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {dummyReviews.map((review) => (
+        {reviews.map((review) => (
           <div
-            key={review.id}
-            className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-sm transition-all"
+            key={review._id}
+            onClick={() => router.push(`/vehicles/${review.vehicleId._id}`)}
+            className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-sm transition-all cursor-pointer"
           >
             {/* star rating */}
             <div className="flex items-center gap-0.5 mb-4">
@@ -71,14 +73,24 @@ export default function CustomerReviews() {
 
             {/* reviewer info */}
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 font-bold text-sm shrink-0">
-                {review.name.charAt(0).toUpperCase()}
-              </div>
+              {review.customerId.imageUrl ? (
+                <div className="relative h-9 w-9 rounded-full overflow-hidden shrink-0">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_BASE_URL}${review.customerId.imageUrl}`}
+                    alt={review.customerId.fullName}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="h-9 w-9 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 font-bold text-sm shrink-0">
+                  {review.customerId.fullName.charAt(0).toUpperCase()}
+                </div>
+              )}
               <div>
                 <p className="text-sm font-semibold text-[#13303a]">
-                  {review.name}
+                  {review.customerId.fullName}
                 </p>
-                <p className="text-xs text-[#8093a0]">{review.location}</p>
               </div>
             </div>
           </div>

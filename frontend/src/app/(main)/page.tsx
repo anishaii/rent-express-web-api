@@ -8,13 +8,15 @@ import Footer from "./_component/Footer";
 import { handleGetPublicBrands } from "@/lib/actions/public/brand-action";
 import { handleGetPublicCategories } from "@/lib/actions/public/category-action";
 import { handleGetPublicVehicles } from "@/lib/actions/public/vehicle-action";
+import { handleGetFeaturedReviews } from "@/lib/actions/public/review-action";
 
 export default async function HomePage() {
   // fetch all data in parallel for better performance
-  const [brandsResult, categoriesResult, vehiclesResult] = await Promise.all([
-    handleGetPublicBrands(),
-    handleGetPublicCategories(),
-    handleGetPublicVehicles(),
+ const [brandsResult, categoriesResult, vehiclesResult, reviewsResult] = await Promise.all([
+  handleGetPublicBrands(),
+  handleGetPublicCategories(),
+  handleGetPublicVehicles(),
+  handleGetFeaturedReviews(3),
   ]);
 
   return (
@@ -34,8 +36,8 @@ export default async function HomePage() {
       {/* featured vehicles from api */}
       <FeaturedVehicles vehicles={vehiclesResult.success ? vehiclesResult.data : []} />
 
-      {/* customer reviews - dummy for now */}
-      <CustomerReviews />
+      {/* customer reviews*/}
+      <CustomerReviews reviews={reviewsResult.success ? reviewsResult.data : []} />
 
       {/* cta section */}
       <CTASection />
