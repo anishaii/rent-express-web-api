@@ -19,9 +19,10 @@ import { useRouter } from "next/navigation";
 // categories come from parent page via API - not hardcoded
 interface HeroSectionProps {
   categories: { _id: string; name: string }[];
+  totalVehicles: number;
 }
 
-export default function HeroSection({ categories }: HeroSectionProps) {
+export default function HeroSection({ categories, totalVehicles }: HeroSectionProps) {
   const [pickupOpen, setPickupOpen] = useState(false);
   const [dropoffOpen, setDropoffOpen] = useState(false);
   const [pickupDate, setPickupDate] = useState<Date | undefined>(undefined);
@@ -44,8 +45,8 @@ export default function HeroSection({ categories }: HeroSectionProps) {
         {/* Badge */}
         <div className="w-fit">
           <span className="bg-[#e2f2f7] text-[#007a99] text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#0092B8] inline-block" />
-            500+ vehicles ready to drive
+            <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
+            {totalVehicles}+ vehicles ready to drive
           </span>
         </div>
 

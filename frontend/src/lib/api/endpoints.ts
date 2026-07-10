@@ -62,6 +62,7 @@ export const API = {
     CATEGORIES: "/api/category",
     VEHICLES: "/api/vehicle",
     VEHICLE_BY_ID: (id: string) => `/api/vehicle/${id}`,
+    FEATURED_REVIEWS: "/api/review/featured",
   },
   // user booking endpoints - requires auth
   USER: {

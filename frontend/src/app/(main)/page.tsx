@@ -20,7 +20,10 @@ export default async function HomePage() {
   return (
     <div>
       {/* hero section with search */}
-      <HeroSection categories={categoriesResult.success ? categoriesResult.data : []} />
+      <HeroSection 
+      categories={categoriesResult.success ? categoriesResult.data : []}
+      totalVehicles={vehiclesResult.success ? vehiclesResult.data.length : 0}
+       />
 
       {/* popular brands from api */}
       <PopularBrands brands={brandsResult.success ? brandsResult.data : []} />
