@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CalendarIcon, SearchIcon, MapPinIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // categories come from parent page via API - not hardcoded
 interface HeroSectionProps {
@@ -26,10 +27,13 @@ export default function HeroSection({ categories }: HeroSectionProps) {
   const [pickupDate, setPickupDate] = useState<Date | undefined>(undefined);
   const [dropoffDate, setDropoffDate] = useState<Date | undefined>(undefined);
   const [category, setCategory] = useState<string>("");
+  const router = useRouter();
+
 
   const handleSearch = () => {
-    // will be wired to vehicle listing page later
-    console.log({ pickupDate, dropoffDate, category });
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  router.push(`/vehicles${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   return (
