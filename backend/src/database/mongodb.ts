@@ -12,7 +12,7 @@ export const connectToMongoDB = async () => {
 };
 
 export const connectToMongoDBTest = async () => {
-  const testUri = "mongodb://localhost:27017/rentexpress_test";
+  const testUri = process.env.MONGODB_TEST_URL as string;
   try {
     await mongoose.connect(testUri);
     console.log("Connected to MongoDB Test");
