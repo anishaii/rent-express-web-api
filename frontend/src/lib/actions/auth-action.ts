@@ -4,6 +4,7 @@ import { RegisterFormData, LoginFormData } from "@/app/(auth)/_schema/schema";
 import { register, login, whoami, updateProfile } from "../api/auth";
 import { setTokenCookie, storeUserData } from "../cookies";
 import { revalidatePath } from "next/cache";
+import { requestPasswordReset, resetPassword } from "../api/auth";
 
 // REGISTER
 export const handleRegisterUser = async (data: RegisterFormData) => {
@@ -76,5 +77,48 @@ export const handleUpdateProfile = async (data: FormData) => {
     }
   } catch (error: Error | any) {
     return { success: false, message: error?.message || "Update user failed" };
+  }
+};
+
+// REQUEST PASSWORD RESET
+export const handleRequestPasswordReset = async (email: string) => {
+  try {
+    const result = await requestPasswordReset(email);
+    if (result.success) {
+      return { success: true, message: result.message };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Failed to request password reset",
+      };
+    }
+  } catch (error: Error | any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to request password reset",
+    };
+  }
+};
+
+// RESET PASSWORD
+export const handleResetPassword = async (
+  token: string,
+  newPassword: string,
+) => {
+  try {
+    const result = await resetPassword(token, newPassword);
+    if (result.success) {
+      return { success: true, message: result.message };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Failed to reset password",
+      };
+    }
+  } catch (error: Error | any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to reset password",
+    };
   }
 };
