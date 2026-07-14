@@ -11,6 +11,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../configs/constant";
 import { HttpException } from "../exceptions/http-exception";
+import { CLIENT_URL } from "../configs/constant";
+import { sendEmail } from "../configs/email";
 
 const userRepository = new UserMongoRepository();
 
@@ -149,5 +151,40 @@ export class UserService {
     };
 
     return { data, pagination };
+  }
+  // send password reset email with a time-limited JWT token
+  async sendResetPasswordEmail(email: string): Promise<{ token: string }> {
+    const user = await userRepository.getUserByEmail(email);
+    if (!user) {
+      throw new HttpException(404, "User not found");
+    }
+
+    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
+    const resetLink = `${CLIENT_URL}/reset-password?token=${token}`;
+    const html = `<p>Click <a href="${resetLink}">here</a> to reset your password. This link will expire in 1 hour.</p>`;
+
+    await sendEmail(user.email, "Reset your RentExpress password", html);
+    return { token };
+  }
+
+  // verify reset token and update password
+  async resetPassword(token: string, newPassword: string): Promise<IUser> {
+    let decoded: { id: string };
+    try {
+      decoded = jwt.verify(token, SECRET_KEY) as { id: string };
+    } catch {
+      throw new HttpException(400, "Invalid or expired token");
+    }
+
+    const user = await userRepository.getUserById(decoded.id);
+    if (!user) {
+      throw new HttpException(404, "User not found");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const updatedUser = await userRepository.update(decoded.id, {
+      password: hashedPassword,
+    });
+    return updatedUser!;
   }
 }

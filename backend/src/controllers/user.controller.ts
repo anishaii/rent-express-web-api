@@ -3,6 +3,7 @@ import { z } from "zod";
 import { RegisterUserDTO, LoginUserDTO, UpdateUserDTO } from "../dtos/user.dto";
 import { ApiResponseHelper } from "../utils/apihelper.util";
 import { Request, Response } from "express";
+import { HttpException } from "../exceptions/http-exception";
 
 const userService = new UserService();
 
@@ -109,6 +110,51 @@ export class UserController {
         res,
         user,
         "User retrieved successfully",
+      );
+    } catch (error: Error | any | unknown) {
+      return ApiResponseHelper.error(
+        res,
+        error.message || "Internal Server Error",
+        error.status || 500,
+      );
+    }
+  }
+
+  // send password reset email
+  async sendResetPasswordEmail(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        throw new HttpException(400, "Email is required");
+      }
+      const { token } = await userService.sendResetPasswordEmail(email);
+      return ApiResponseHelper.success(
+        res,
+        { token },
+        "Reset password email sent successfully",
+      );
+    } catch (error: Error | any | unknown) {
+      return ApiResponseHelper.error(
+        res,
+        error.message || "Internal Server Error",
+        error.status || 500,
+      );
+    }
+  }
+
+  // reset password using token from email link
+  async resetPassword(req: Request, res: Response) {
+    try {
+      const { token } = req.params as { token: string };
+      const { newPassword } = req.body;
+      if (!newPassword) {
+        throw new HttpException(400, "New password is required");
+      }
+      const updatedUser = await userService.resetPassword(token, newPassword);
+      return ApiResponseHelper.success(
+        res,
+        updatedUser,
+        "Password reset successfully",
       );
     } catch (error: Error | any | unknown) {
       return ApiResponseHelper.error(

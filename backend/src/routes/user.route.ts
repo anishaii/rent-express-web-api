@@ -19,5 +19,13 @@ userRouter.put(
 );
 // who am i?
 userRouter.get("/whoami", authorizedMiddleware, userController.whoami);
+// request a password reset email
+userRouter.post(
+  "/request-password-reset",
+  userController.sendResetPasswordEmail,
+);
+
+// reset password using token from email link
+userRouter.post("/reset-password/:token", userController.resetPassword);
 
 export default userRouter;
