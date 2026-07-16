@@ -2,14 +2,15 @@ import { UserController } from "../controllers/user.controller";
 import { authorizedMiddleware } from "../middlewares/authorized.middleware";
 import { Router } from "express";
 import { uploads } from "../middlewares/upload.middleware";
+import { authRateLimiter } from "../middlewares/rate-limit.middleware";
 
 const userRouter = Router();
 const userController = new UserController();
 
 // register
-userRouter.post("/register", userController.registerUser);
+userRouter.post("/register", authRateLimiter, userController.registerUser);
 // login
-userRouter.post("/login", userController.loginUser);
+userRouter.post("/login", authRateLimiter, userController.loginUser);
 // update user / profile picture
 userRouter.put(
   "/update",
