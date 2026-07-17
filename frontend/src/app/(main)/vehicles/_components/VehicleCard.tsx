@@ -118,9 +118,9 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           </div>
         )}
 
-        {/* category badge */}
+        {/* category badge  */}
         <div className="absolute top-3 left-3">
-          <span className="bg-[#0092B8] text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+          <span className="bg-[#b8e6f1] text-slate-800 text-xs font-medium px-2.5 py-1 rounded-full">
             {vehicle.categoryId?.name}
           </span>
         </div>

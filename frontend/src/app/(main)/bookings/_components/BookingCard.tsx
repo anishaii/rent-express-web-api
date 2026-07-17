@@ -62,7 +62,7 @@ export default function BookingCard({ booking, onCancelled }: BookingCardProps) 
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-5">
+    <div className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-start gap-5">
       {/* vehicle image */}
       <div className="relative h-24 w-full sm:w-32 rounded-xl overflow-hidden bg-gray-100 shrink-0">
         {vehicle.imageUrl ? (

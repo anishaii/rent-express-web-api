@@ -146,7 +146,7 @@ export default function HeroSection({ categories, totalVehicles }: HeroSectionPr
           {/* Search Button */}
           <Button
             onClick={handleSearch}
-            className="w-full bg-[#0092B8] hover:bg-[#007a99] text-white rounded-xl py-3 flex items-center justify-center gap-2 text-sm font-semibold"
+            className="w-full bg-[#0092B8] hover:bg-[#007a99] text-white rounded-xl py-3 flex items-center justify-center gap-2 text-sm font-medium"
           >
             <SearchIcon className="h-4 w-4" strokeWidth={2} />
             Search available vehicles

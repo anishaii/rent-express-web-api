@@ -89,7 +89,7 @@ export default function BrowseByCategory({ categories }: BrowseByCategoryProps) 
             <div className={`h-12 w-12 rounded-full flex items-center justify-center border ${getCategoryColor(category.name)}`}>
               {getCategoryIcon(category.name)}
             </div>
-            <span className="text-xs font-semibold text-[#13303a] text-center">
+            <span className="text-xs font-medium text-[#13303a] text-center">
               {category.name}
             </span>
           </button>
