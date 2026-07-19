@@ -11,6 +11,7 @@ export async function login(page: Page, email: string, password: string) {
   await page.waitForURL((url) => !url.pathname.includes("/login"), {
     timeout: 5000,
   });
+  await page.waitForTimeout(1000);
 }
 
 // logs out via the UserMenu dropdown -> Logout -> confirm dialog
