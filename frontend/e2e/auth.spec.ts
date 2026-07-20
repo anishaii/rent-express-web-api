@@ -34,6 +34,24 @@ test.describe("Authentication flow", () => {
     await page.getByRole("button", { name: "Register" }).click();
     await expect(page).toHaveURL(/register/);
   });
+  test("should show error when passwords do not match on register", async ({
+    page,
+  }) => {
+    await page.goto("/register");
+    await page.getByPlaceholder("Enter your full name").fill("Mismatch Test");
+    await page
+      .getByPlaceholder("Enter your email")
+      .fill(`e2e-mismatch-${Date.now()}@example.com`);
+    await page.getByPlaceholder("Enter your contact number").fill("9800000099");
+    await page.getByRole("radio", { name: "Male", exact: true }).check();
+    await page.getByPlaceholder("Enter your password").fill("TestPass123!");
+    await page
+      .getByPlaceholder("Confirm your password")
+      .fill("DifferentPass456!");
+    await page.getByRole("button", { name: "Register" }).click();
+
+    await expect(page.getByText(/passwords do not match/i)).toBeVisible();
+  });
 
   test("should log in with valid credentials", async ({ page }) => {
     await login(page, testUser.email, testUser.password);

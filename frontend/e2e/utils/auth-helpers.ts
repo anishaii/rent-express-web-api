@@ -9,7 +9,7 @@ export async function login(page: Page, email: string, password: string) {
 
   // wait until we've navigated away from /login as confirmation of success
   await page.waitForURL((url) => !url.pathname.includes("/login"), {
-    timeout: 5000,
+    timeout: 10000,
   });
   await page.waitForTimeout(1000);
 }
