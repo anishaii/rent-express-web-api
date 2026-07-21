@@ -1,6 +1,8 @@
 import { handleGetAllReviews } from "@/lib/actions/admin/review-action";
 import ReviewTable from "./_components/ReviewTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReviewsPage({
   searchParams,
 }: {

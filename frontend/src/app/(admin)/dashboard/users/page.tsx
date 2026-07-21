@@ -1,6 +1,8 @@
 import { handleGetAllUsers } from "@/lib/actions/admin/user-action";
 import UserTable from "./_components/UserTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function UsersPage({
   searchParams,
 }: {

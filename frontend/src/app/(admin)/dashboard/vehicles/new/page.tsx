@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 import VehicleForm from "../_components/VehicleForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function NewVehiclePage() {
   // fetch brands and categories for form dropdowns
   const [brandsResult, categoriesResult] = await Promise.all([

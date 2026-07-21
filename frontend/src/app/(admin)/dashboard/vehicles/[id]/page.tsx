@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeftIcon } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function VehicleDetailPage({
   params,
 }: {

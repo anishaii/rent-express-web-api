@@ -1,6 +1,8 @@
 import { handleGetAllBookings } from "@/lib/actions/admin/booking-action";
 import BookingTable from "./_components/BookingTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function BookingsPage({
   searchParams,
 }: {

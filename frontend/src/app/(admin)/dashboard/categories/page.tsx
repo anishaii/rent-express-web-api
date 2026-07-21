@@ -1,7 +1,7 @@
 import { handleGetAllCategories } from "@/lib/actions/admin/category-action";
 import CategoryTable from "./_components/CategoryTable";
 
-
+export const dynamic = "force-dynamic";
 
 export default async function CategoriesPage() {
   const result = await handleGetAllCategories();

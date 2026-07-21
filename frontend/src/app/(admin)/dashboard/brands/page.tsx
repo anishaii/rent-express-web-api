@@ -1,6 +1,7 @@
 import { handleGetAllBrands } from "@/lib/actions/admin/brand-action";
 import BrandTable from "./_components/BrandTable";
 
+export const dynamic = "force-dynamic";
 
 export default async function BrandsPage({
   searchParams,

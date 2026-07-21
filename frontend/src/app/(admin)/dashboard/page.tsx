@@ -13,6 +13,8 @@ import RecentBookings from "./_components/RecentBookings";
 import RecentCustomers from "./_components/RecentCustomers";
 import QuickActions from "./_components/QuickActions";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const result = await handleGetDashboardStats();
 
