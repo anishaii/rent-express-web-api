@@ -25,6 +25,17 @@ test.describe("Admin vehicle management", () => {
     await expect(page.getByText(/Honda/i).first()).toBeVisible();
   });
 
+  test("should show validation error when creating vehicle with empty fields", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Add Vehicle" }).click();
+    await page.waitForURL("/dashboard/vehicles/new");
+
+    await page.getByRole("button", { name: "Save Vehicle" }).click();
+
+    await expect(page.getByText("Vehicle name is required")).toBeVisible();
+  });
+
   test("should create a new vehicle", async ({ page }) => {
     await page.getByRole("button", { name: "Add Vehicle" }).click();
     await page.waitForURL("/dashboard/vehicles/new");

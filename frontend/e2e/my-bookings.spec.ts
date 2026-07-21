@@ -39,6 +39,18 @@ test.describe("My Bookings page", () => {
     );
   });
 
+  test("should reset to All bookings after switching tabs", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Pending" }).click();
+    await page.getByRole("button", { name: "All" }).click();
+
+    await expect(page.getByRole("button", { name: "All" })).toHaveClass(
+      /bg-\[#0092B8\]/,
+    );
+    await expect(page.getByText("View Details").first()).toBeVisible();
+  });
+
   test("should navigate to booking details when View Details is clicked", async ({
     page,
   }) => {

@@ -27,6 +27,16 @@ test.describe("Admin category management", () => {
     ).toBeVisible();
   });
 
+  test("should show validation error when no category is selected on create", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Add Category" }).click();
+    await page.getByLabel("Description").fill("Some description");
+    await page.getByRole("button", { name: "Create Category" }).click();
+
+    await expect(page.getByText("Please select a category")).toBeVisible();
+  });
+
   test("should cancel the dialog without saving", async ({ page }) => {
     await page.getByRole("button", { name: "Add Category" }).click();
     await page

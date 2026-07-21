@@ -89,3 +89,15 @@ test.describe("Favourites page", () => {
     await page.waitForURL("/vehicles");
   });
 });
+
+test.describe("Favourites page - logged out", () => {
+  test("should show favourites page with empty state when not logged in", async ({
+    page,
+  }) => {
+    await page.goto("/favourites", { waitUntil: "networkidle" });
+    await expect(
+      page.getByRole("heading", { name: "My Favourites" }),
+    ).toBeVisible();
+    await expect(page.getByText("No favourites yet")).toBeVisible();
+  });
+});

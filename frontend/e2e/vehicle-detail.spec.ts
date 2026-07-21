@@ -79,6 +79,13 @@ test.describe("Vehicle detail page", () => {
       .first();
     const heartButton = card.locator("button").first();
     await heartButton.click();
+
+    // may already be favourited from a previous run - if removed, add it back
+    const removedToast = page.getByText("Removed from favourites");
+    const wasRemoved = await removedToast.isVisible().catch(() => false);
+    if (wasRemoved) {
+      await heartButton.click();
+    }
     await expect(page.getByText("Added to favourites!")).toBeVisible();
 
     await page.goto("/favourites");

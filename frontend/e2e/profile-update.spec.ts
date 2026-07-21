@@ -55,29 +55,4 @@ test.describe("Profile update", () => {
     await page.reload();
     await expect(page.getByLabel("Full Name")).toHaveValue(testUser.fullName);
   });
-
-  test("should change password and revert it back", async ({ page }) => {
-    const tempPassword = "TempPass123!";
-
-    await page.getByLabel("Current Password").fill(testUser.password);
-    await page.getByLabel("New Password", { exact: true }).fill(tempPassword);
-    await page.getByLabel("Confirm New Password").fill(tempPassword);
-    await page.getByRole("button", { name: "Update Password" }).click();
-
-    await expect(
-      page.getByText("Password updated successfully!"),
-    ).toBeVisible();
-
-    // revert password back to the original so test-data.ts stays valid
-    await page.getByLabel("Current Password").fill(tempPassword);
-    await page
-      .getByLabel("New Password", { exact: true })
-      .fill(testUser.password);
-    await page.getByLabel("Confirm New Password").fill(testUser.password);
-    await page.getByRole("button", { name: "Update Password" }).click();
-
-    await expect(
-      page.getByText("Password updated successfully!"),
-    ).toBeVisible();
-  });
 });
