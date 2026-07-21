@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import ProfileForm from "./_components/ProfileForm";
 import PasswordForm from "./_components/PasswordForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const user = await handleUserDetails(); // loading.tsx shows automatically while this resolves
   if (!user.success) {
