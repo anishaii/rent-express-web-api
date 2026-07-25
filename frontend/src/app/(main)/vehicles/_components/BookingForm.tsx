@@ -23,19 +23,27 @@ export default function BookingForm({
   isAvailable,
 }: BookingFormProps) {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
+  const isAdmin = user?.role === "admin";
+
   const handleBookNow = () => {
-    // show login dialog if user is not authenticated
     if (!isAuthenticated) {
       setShowLoginDialog(true);
       return;
     }
 
-    // logged in - go to step 1 of the booking stepper
     router.push(`/bookings/confirm?vehicleId=${vehicleId}`);
   };
+
+  // determine button state: unavailable > admin > normal
+  const isDisabled = !isAvailable || isAdmin;
+  const buttonLabel = !isAvailable
+    ? "Not Available"
+    : isAdmin
+      ? "Admins Cannot Book"
+      : "Book Now";
 
   return (
     <>
@@ -76,14 +84,14 @@ export default function BookingForm({
       {/* book now button */}
       <button
         onClick={handleBookNow}
-        disabled={!isAvailable}
+        disabled={isDisabled}
         className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
-          !isAvailable
+          isDisabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
             : "bg-[#0092B8] hover:bg-[#007a99] text-white"
         }`}
       >
-        {!isAvailable ? "Not Available" : "Book Now"}
+        {buttonLabel}
       </button>
     </>
   );
