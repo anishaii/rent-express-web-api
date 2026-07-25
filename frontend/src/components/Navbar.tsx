@@ -38,7 +38,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="border-b bg-white sticky top-0 z-50">
       <div className="container mx-auto flex h-15 items-center justify-between px-6">
 
         {/* Logo */}
