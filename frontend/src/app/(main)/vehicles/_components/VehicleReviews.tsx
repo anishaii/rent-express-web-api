@@ -153,6 +153,7 @@ export default function VehicleReviews({ vehicleId }: VehicleReviewsProps) {
             fullName: user.fullName,
           },
         };
+        setReviews((prev) => [newReview, ...prev]);
         setAlreadyReviewed(true);
         setRating(0);
         setComment("");
