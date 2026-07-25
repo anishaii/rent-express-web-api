@@ -26,7 +26,6 @@ import {
 
 import {
   UserIcon,
-  CreditCardIcon,
   LogOutIcon,
   ShieldUser,
 } from "lucide-react";
@@ -72,11 +71,6 @@ export default function UserMenu() {
           >
             <UserIcon className="h-4 w-4" />
             <span>Profile</span>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem className="flex items-center gap-2">
-            <CreditCardIcon className="h-4 w-4" />
-            <span>Billing</span>
           </DropdownMenuItem>
 
           {/* Admin only */}
