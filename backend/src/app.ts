@@ -50,6 +50,7 @@ app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/brand", brandRoutes);
 app.use("/api/vehicle", vehicleRoutes);
+0;
 app.use("/api/booking", bookingRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/favourite", favouriteRoutes);

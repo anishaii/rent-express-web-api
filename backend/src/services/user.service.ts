@@ -85,7 +85,17 @@ export class UserService {
     if (!existingUser) {
       throw new HttpException(404, "User not found");
     }
-
+    // if changing password, verify current password first
+    if (userData.password) {
+      const currentPassword = (userData as any).currentPassword;
+      if (!currentPassword) {
+        throw new HttpException(
+          400,
+          "Current password is required to change password",
+        );
+      }
+      await this.checkPassword(id, currentPassword); // throws if incorrect
+    }
     // check duplicate email only if email is being changed
     if (userData.email && userData.email !== existingUser.email) {
       const existingEmail = await userRepository.getUserByEmail(userData.email);
